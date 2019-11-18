@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Attributes\" />
-    <Folder Include="Common\Collections\" />
     <Folder Include="Common\Converters\" />
     <Folder Include="Database\Entities\" />
     <Folder Include="EventListeners\" />
