@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freud2.0", "Freud2.0\Freud2.0.csproj", "{1A82DCBF-40D2-414A-A48C-98985490DCAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A82DCBF-40D2-414A-A48C-98985490DCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A82DCBF-40D2-414A-A48C-98985490DCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A82DCBF-40D2-414A-A48C-98985490DCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A82DCBF-40D2-414A-A48C-98985490DCAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4ABD9E64-9761-4B1A-9EC2-5A8F0A2915CD}
+	EndGlobalSection
+EndGlobal
