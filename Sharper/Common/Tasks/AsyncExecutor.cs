@@ -29,12 +29,10 @@ namespace Sharper.Common.Tasks
                 try
                 {
                     await task;
-                }
-                catch (Exception ex)
+                } catch (Exception ex)
                 {
                     tex = ex;
-                }
-                finally
+                } finally
                 {
                     are.Set();
                 }
@@ -60,12 +58,10 @@ namespace Sharper.Common.Tasks
                 try
                 {
                     result = await task;
-                }
-                catch (Exception ex)
+                } catch (Exception ex)
                 {
                     tex = ex;
-                }
-                finally
+                } finally
                 {
                     are.Set();
                 }

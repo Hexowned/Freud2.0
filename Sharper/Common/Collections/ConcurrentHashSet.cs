@@ -56,8 +56,7 @@ namespace Sharper.Common.Collections
                     {
                         count += this._tables.CountPerLock[i];
                     }
-                }
-                finally
+                } finally
                 {
                     this.ReleaseLocks(0, acquiredLocks);
                 }
@@ -87,8 +86,7 @@ namespace Sharper.Common.Collections
                             return false;
                         }
                     }
-                }
-                finally
+                } finally
                 {
                     this.ReleaseLocks(0, acquiredLocks);
                 }
@@ -286,8 +284,7 @@ namespace Sharper.Common.Collections
                 var newTables = new Tables(new Node[DefaultCapacity], this._tables.Locks, new int[this._tables.CountPerLock.Length]);
                 this._tables = newTables;
                 this._budget = Math.Max(1, newTables.Buckets.Length / newTables.Locks.Length);
-            }
-            finally
+            } finally
             {
                 this.ReleaseLocks(0, locksAcquired);
             }
@@ -358,8 +355,7 @@ namespace Sharper.Common.Collections
                             if (previous is null)
                             {
                                 Volatile.Write(ref tables.Buckets[bucketNo], current.Next);
-                            }
-                            else
+                            } else
                             {
                                 previous.Next = current.Next;
                             }
@@ -430,8 +426,7 @@ namespace Sharper.Common.Collections
                 }
 
                 this.CopyToItems(array, arrayIndex);
-            }
-            finally
+            } finally
             {
                 this.ReleaseLocks(0, locksAcquired);
             }
@@ -503,8 +498,7 @@ namespace Sharper.Common.Collections
                     {
                         resizeDesired = true;
                     }
-                }
-                finally
+                } finally
                 {
                     if (lockTaken)
                         Monitor.Exit(tables.Locks[lockNo]);
@@ -606,8 +600,7 @@ namespace Sharper.Common.Collections
                             maximizeTableSize = true;
                         }
                     }
-                }
-                catch (OverflowException)
+                } catch (OverflowException)
                 {
                     maximizeTableSize = true;
                 }
@@ -669,8 +662,7 @@ namespace Sharper.Common.Collections
 
                 // Replace tables with the new versions
                 this._tables = new Tables(newBuckets, newLocks, newCountPerLock);
-            }
-            finally
+            } finally
             {
                 // Release all locks that we took earlier
                 this.ReleaseLocks(0, locksAcquired);
@@ -711,8 +703,7 @@ namespace Sharper.Common.Collections
                 try
                 {
                     Monitor.Enter(locks[i], ref lockTaken);
-                }
-                finally
+                } finally
                 {
                     if (lockTaken)
                     {

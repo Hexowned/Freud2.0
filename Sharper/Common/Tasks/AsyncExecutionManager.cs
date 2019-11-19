@@ -1,9 +1,9 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-using Sharper.Common.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DSharpPlus;
+using Sharper.Common.Attributes;
 #endregion
 
 namespace Sharper.Common.Tasks

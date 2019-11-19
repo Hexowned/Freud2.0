@@ -1,13 +1,13 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-using Sharper.Common.Attributes;
-using Sharper.Common.Configuration;
-using Sharper.Database;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using DSharpPlus;
+using Sharper.Common.Attributes;
+using Sharper.Common.Configuration;
+using Sharper.Database;
 #endregion
 
 namespace Sharper
@@ -48,15 +48,13 @@ namespace Sharper
                 try
                 {
                     await Task.Delay(Timeout.Infinite, SharedData.MainLoopCts.Token);
-                }
-                catch (TaskCanceledException)
+                } catch (TaskCanceledException)
                 {
                     SharedData.LogProvider.ElevatedLog(LogLevel.Info, "Shutdown signal recieved!");
                 }
 
                 await DisposeAsync();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 Console.WriteLine($"\nException occured: {e.GetType()} :\n{e.Message}");
 
@@ -98,8 +96,7 @@ namespace Sharper
                 var activity = new DiscordActivity(status?.Status ?? "For commands\n@Freud help", status?.Activity ?? ActivityType.Listening);
 
                 SharedData.AsyncExecutor.Execute(client.UpdateStatusAsync(activity));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -121,8 +118,7 @@ namespace Sharper
                                 MessageCount = count,
                                 UserId = uid
                             });
-                        }
-                        else
+                        } else
                         {
                             if (count != msgcount.MessageCount)
                             {
@@ -134,8 +130,7 @@ namespace Sharper
 
                     db.SaveChanges();
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -147,8 +142,7 @@ namespace Sharper
             try
             {
                 SharedData.AsyncExecutor.Execute(RssService.CheckFeedsForChangesAsync(client, GlobalDatabaseContextBuilder));
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -160,8 +154,7 @@ namespace Sharper
             try
             {
 
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }

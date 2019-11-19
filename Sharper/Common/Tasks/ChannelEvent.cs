@@ -1,8 +1,7 @@
 ﻿#region USING_DIRECTIVES
+using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
-
-using System.Threading.Tasks;
 #endregion
 
 namespace Sharper.Common

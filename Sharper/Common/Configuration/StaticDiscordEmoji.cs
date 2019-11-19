@@ -1,8 +1,5 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus.Entities;
 
-using System.Collections.Generic;
-using System.Collections.Immutable;
 #endregion
 
 namespace Sharper.Common.Configuration

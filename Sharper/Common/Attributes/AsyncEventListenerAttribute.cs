@@ -1,9 +1,8 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using DSharpPlus;
 #endregion
 
 namespace Sharper.Common.Attributes
@@ -30,8 +29,7 @@ namespace Sharper.Common.Attributes
                     try
                     {
                         await (Task)info.Invoke(null, new object[] { shard, e });
-                    }
-                    catch (Exception ex)
+                    } catch (Exception ex)
                     {
                         shard.SharedData.LogProvider.Log(LogLevel.Error, ex);
                     }
@@ -50,8 +48,7 @@ namespace Sharper.Common.Attributes
                     try
                     {
                         await (Task)info.Invoke(null, new object[] { shard });
-                    }
-                    catch (Exception ex)
+                    } catch (Exception ex)
                     {
                         shard.SharedData.LogProvider.Log(LogLevel.Error, ex);
                     }

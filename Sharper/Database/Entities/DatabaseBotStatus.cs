@@ -1,8 +1,7 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus.Entities;
-
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DSharpPlus.Entities;
 #endregion
 
 namespace Sharper.Database.Entities

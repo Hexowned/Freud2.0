@@ -1,14 +1,14 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-using DSharpPlus.EventArgs;
-using Newtonsoft.Json;
-using Sharper.Common.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DSharpPlus;
+using DSharpPlus.EventArgs;
+using Newtonsoft.Json;
+using Sharper.Common.Configuration;
 #endregion
 
 namespace Sharper
@@ -58,8 +58,7 @@ namespace Sharper
                 try
                 {
                     File.Delete(this.path);
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     this.Log(LogLevel.Error, e);
 
@@ -167,8 +166,7 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 this.Log(LogLevel.Error, e, filelog: false);
             }
@@ -185,8 +183,7 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            }
-            catch (Exception exc)
+            } catch (Exception exc)
             {
                 this.Log(LogLevel.Error, exc, filelog: false);
             }
@@ -207,8 +204,7 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            }
-            catch (Exception exc)
+            } catch (Exception exc)
             {
                 this.Log(LogLevel.Error, exc, filelog: false);
             }
@@ -226,8 +222,7 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 this.Log(LogLevel.Error, e, filelog: false);
             }

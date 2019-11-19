@@ -1,6 +1,6 @@
 ﻿#region USING_DIRECTIVES
-using Npgsql;
 using System;
+using Npgsql;
 using static Sharper.Database.DatabaseConfiguration;
 #endregion
 
@@ -56,8 +56,7 @@ namespace Sharper.Database
             try
             {
                 return new DatabaseContext(this.Provider, this.ConnectionString);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 Console.WriteLine("Error during database initialization");
                 Console.WriteLine(e);

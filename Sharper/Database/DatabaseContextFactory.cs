@@ -1,9 +1,9 @@
 ﻿#region USING_DIRECTIVES
 
-using Newtonsoft.Json;
-using Sharper.Common.Configuration;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
+using Sharper.Common.Configuration;
 #endregion
 
 namespace Sharper.Database
@@ -24,8 +24,7 @@ namespace Sharper.Database
                     using (var sr = new StreamReader(fs, utf8))
                         json = sr.ReadToEnd();
                     cfg = JsonConvert.DeserializeObject<BotConfiguration>(json);
-                }
-                catch
+                } catch
                 {
                     cfg = BotConfiguration.Default;
                 }

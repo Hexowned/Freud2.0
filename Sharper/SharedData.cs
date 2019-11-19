@@ -1,13 +1,7 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-using DSharpPlus.Entities;
 
 
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 #endregion
 
 namespace Sharper

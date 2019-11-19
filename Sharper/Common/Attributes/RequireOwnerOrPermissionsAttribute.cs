@@ -1,10 +1,9 @@
 ﻿#region USING_DIRECTIVES
+using System;
+using System.Threading.Tasks;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-
-using System;
-using System.Threading.Tasks;
 #endregion
 
 namespace Sharper.Common.Attributes

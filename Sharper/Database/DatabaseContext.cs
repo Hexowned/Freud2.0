@@ -1,7 +1,6 @@
 ﻿#region USING_DIRECTIVES
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using Microsoft.EntityFrameworkCore;
 using static Sharper.Database.DatabaseConfiguration;
 #endregion
 

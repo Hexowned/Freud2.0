@@ -24,8 +24,7 @@ namespace Sharper.Common
             {
                 res = new CustomIPFormat(str);
                 return true;
-            }
-            else
+            } else
             {
                 res = null;
                 return false;

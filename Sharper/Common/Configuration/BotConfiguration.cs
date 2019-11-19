@@ -1,9 +1,8 @@
 ﻿#region USING_DIRECTIVES
+using System.Collections.Generic;
 using DSharpPlus;
-
 using Newtonsoft.Json;
 using Sharper.Database;
-using System.Collections.Generic;
 #endregion
 
 namespace Sharper.Common.Configuration
@@ -83,7 +82,7 @@ namespace Sharper.Common.Configuration
             OMDbKey = "<insert OMDb API key>",
             ShardCount = 1,
             SteamKey = "<insert Steam API key>",
-            Token = "<NjIyMDk5MTM5NjI2MjcwNzMw.XdIrxQ.3c9DAj_OafGperfQlaLywBnkV_w>",
+            Token = "<insert Bot token key>",
             WeatherKey = "<insert OpenWeatherMaps API key>",
             YouTubeKey = "<insert YouTube API key>"
         };

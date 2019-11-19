@@ -1,14 +1,13 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
-
-using Microsoft.Extensions.DependencyInjection;
-using Sharper.Database;
-using Sharper.Database.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DSharpPlus;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using Sharper.Database;
+using Sharper.Database.Entities;
 #endregion
 namespace Sharper.Common.Attributes
 {
@@ -37,8 +36,7 @@ namespace Sharper.Common.Attributes
                 }
 
                 return Task.FromResult(true);
-            }
-            else
+            } else
             {
                 return Task.FromResult(false);
             }

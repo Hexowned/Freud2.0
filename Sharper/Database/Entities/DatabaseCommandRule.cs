@@ -1,7 +1,6 @@
 ﻿#region USING_DIRECTIVES
-using Sharper.Common.Configuration;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sharper.Common.Configuration;
 #endregion;
 
 namespace Sharper.Database.Entities

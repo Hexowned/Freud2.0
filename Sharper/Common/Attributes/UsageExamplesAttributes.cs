@@ -1,10 +1,8 @@
 ﻿#region USING_DIRECTIVES
-using DSharpPlus.CommandsNext;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using System;
 using System.Linq;
+using DSharpPlus.CommandsNext;
+using Microsoft.Extensions.DependencyInjection;
 #endregion;
 
 namespace Sharper.Common.Attributes
