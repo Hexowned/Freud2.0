@@ -1,9 +1,9 @@
 #region USING_DIRECTIVES
-using NUnit.Framework;
-using Sharper.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
+using Sharper.Common;
 #endregion
 
 namespace Test.Common
@@ -72,12 +72,12 @@ namespace Test.Common
             {
                 T g = unit();
                 if (checkOutOfBounds && !values.Contains(g))
-                    throw new Exception($"");
+                    throw new Exception($"Element generated which was not present in the original collection: {g}");
                 generated.Add(g);
             }
 
             if (generated.Count != count)
-                throw new Exception($"");
+                throw new Exception($"Random element generation did not generate every given value ({generated.Count}/{count}) in {RNG_THRESHOLD} iterations");
         }
     }
 }
