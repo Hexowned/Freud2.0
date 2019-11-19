@@ -21,15 +21,14 @@ namespace Sharper
         public LogLevel LogLevel { get; set; }
         public bool LogToFile
         {
-            get => this.fileLog;
+            get => this.filelog;
             set
             {
                 lock (this.writeLock)
-                    this.fileLog = value;
+                    this.filelog = value;
             }
         }
 
-        private bool fileLog;
         private bool filelog;
         private readonly List<SpecialLoggingRule> specialRules;
         private readonly string path;
@@ -80,7 +79,7 @@ namespace Sharper
                 PrintLevel(level);
                 PrintLogMessage(message);
                 PrintLogMessage();
-                if (filelog && this.fileLog)
+                if (filelog && this.filelog)
                     this.WriteToLogFile(level, message, timestamp);
             }
         }

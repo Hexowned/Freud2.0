@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Converters\" />
-    <Folder Include="Database\Entities\" />
     <Folder Include="EventListeners\" />
     <Folder Include="Migrations\" />
     <Folder Include="Resources\" />
