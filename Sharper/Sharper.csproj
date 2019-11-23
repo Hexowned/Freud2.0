@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Converters\" />
     <Folder Include="EventListeners\" />
     <Folder Include="Migrations\" />
     <Folder Include="Resources\" />
@@ -21,6 +20,7 @@
     <PackageReference Include="DSharpPlus.Lavalink" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.WebSocket.WebSocket4NetCore" Version="4.0.0-nightly-00635" />
+    <PackageReference Include="Imgur.API" Version="5.0.0-beta1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
