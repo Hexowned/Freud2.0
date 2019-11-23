@@ -1,6 +1,7 @@
 ﻿#region USING_DIRECTIVES
 
 using DSharpPlus;
+using Freud.Database.Db;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -30,6 +31,9 @@ namespace Freud.Common.Configuration
 
         [JsonProperty("key-goodreads")]
         public string GoodreadsKey { get; private set; }
+
+        [JsonProperty("key-wolfram")]
+        public string WolframKey { get; private set; }
 
         [JsonProperty("key-imgur")]
         public string ImgurKey { get; private set; }
@@ -84,7 +88,8 @@ namespace Freud.Common.Configuration
             SteamKey = "<insert Steam API key>",
             Token = "<insert Bot token key>",
             WeatherKey = "<insert OpenWeatherMaps API key>",
-            YouTubeKey = "<insert YouTube API key>"
+            YouTubeKey = "<insert YouTube API key>",
+            WolframKey = "<insert Wolfram API key>"
         };
     }
 }
