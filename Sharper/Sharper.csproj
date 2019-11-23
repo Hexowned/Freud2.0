@@ -10,7 +10,6 @@
     <Folder Include="EventListeners\" />
     <Folder Include="Migrations\" />
     <Folder Include="Resources\" />
-    <Folder Include="Exceptions\" />
     <Folder Include="Modules\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
