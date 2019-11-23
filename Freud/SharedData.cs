@@ -121,7 +121,7 @@ namespace Freud
                 return this.BotConfiguration.DefaultPrefix;
         }
 
-        public DiscordChannel GetLogChannelFroGuild(DiscordClient client, DiscordGuild guild)
+        public DiscordChannel GetLogChannelForGuild(DiscordClient client, DiscordGuild guild)
         {
             var gcfg = this.GetGuildConfiguration(guild.Id);
 
