@@ -1,6 +1,6 @@
 ﻿namespace Sharper.Common.Attributes
 {
-    public class SharperShard
+    public class FreudShard
     {
     }
 }

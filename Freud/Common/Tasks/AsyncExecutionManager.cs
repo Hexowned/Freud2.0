@@ -12,7 +12,7 @@ namespace Sharper.Common.Tasks
     {
         public static IEnumerable<ListenerMethod> ListenerMethods { get; private set; }
 
-        public static void RegisterEventListeners(DiscordClient client, SharperShard shard)
+        public static void RegisterEventListeners(DiscordClient client, FreudShard shard)
         {
             ListenerMethods =
                 from types in Assembly.GetExecutingAssembly().GetTypes()

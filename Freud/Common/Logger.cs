@@ -281,7 +281,7 @@ namespace Sharper.Common
             Console.Write(shard.HasValue ? $"[#{shard.Value}] " : "[Main] ");
             Console.ResetColor();
             if (string.IsNullOrWhiteSpace(application))
-                Console.Write($"[{Sharper.ApplicationName}] ");
+                Console.Write($"[{Freud.ApplicationName}] ");
             else
                 Console.Write($"[{application}] ");
         }

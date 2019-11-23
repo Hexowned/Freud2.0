@@ -1,34 +1,38 @@
 ﻿#region USING_DIRECTIVES
+
+using DSharpPlus;
+using Sharper.Common.Attributes;
+using Sharper.Common.Configuration;
+using Sharper.Database;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using DSharpPlus;
-using Sharper.Common.Attributes;
-using Sharper.Common.Configuration;
-using Sharper.Database;
-#endregion
+
+#endregion USING_DIRECTIVES
 
 namespace Sharper
 {
-    internal static class Sharper
+    internal static class Freud
     {
-        public static readonly string ApplicationName = "Sharper";
+        public static readonly string ApplicationName = "Freud";
         public static readonly string ApplicationVersion = "v1";
-        public static IReadOnlyList<SharperShard> ActiveShards => ActiveShards.AsReadOnly();
+        public static IReadOnlyList<FreudShard> ActiveShards => ActiveShards.AsReadOnly();
 
         private static BotConfiguration BotConfiguration { get; set; }
         private static DatabaseContextBuilder GlobalDatabaseContextBuilder { get; set; }
-        private static List<SharperShard> Shards { get; set; }
+        private static List<FreudShard> Shards { get; set; }
         private static SharedData SharedData { get; set; }
 
         #region TIMERS
+
         private static Timer BotStatusUpdateTimer { get; set; }
         private static Timer DatabaseSyncTimer { get; set; }
         private static Timer FeedCheckTimer { get; set; }
         private static Timer MiscActionsTimer { get; set; }
-        #endregion
+
+        #endregion TIMERS
 
         internal static async Task Main(string[] _)
         {
@@ -48,13 +52,15 @@ namespace Sharper
                 try
                 {
                     await Task.Delay(Timeout.Infinite, SharedData.MainLoopCts.Token);
-                } catch (TaskCanceledException)
+                }
+                catch (TaskCanceledException)
                 {
                     SharedData.LogProvider.ElevatedLog(LogLevel.Info, "Shutdown signal recieved!");
                 }
 
                 await DisposeAsync();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine($"\nException occured: {e.GetType()} :\n{e.Message}");
 
@@ -77,10 +83,13 @@ namespace Sharper
         }
 
         #region SETUP_FUNCTIONS
+
         //todo:
-        #endregion
+
+        #endregion SETUP_FUNCTIONS
 
         #region PERIODIC_CALLBACKS
+
         private static void BotActivityCallback(object _)
         {
             if (!SharedData.StatusRotationEnabled)
@@ -96,7 +105,8 @@ namespace Sharper
                 var activity = new DiscordActivity(status?.Status ?? "For commands\n@Freud help", status?.Activity ?? ActivityType.Listening);
 
                 SharedData.AsyncExecutor.Execute(client.UpdateStatusAsync(activity));
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -118,7 +128,8 @@ namespace Sharper
                                 MessageCount = count,
                                 UserId = uid
                             });
-                        } else
+                        }
+                        else
                         {
                             if (count != msgcount.MessageCount)
                             {
@@ -130,7 +141,8 @@ namespace Sharper
 
                     db.SaveChanges();
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -142,7 +154,8 @@ namespace Sharper
             try
             {
                 SharedData.AsyncExecutor.Execute(RssService.CheckFeedsForChangesAsync(client, GlobalDatabaseContextBuilder));
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
@@ -153,12 +166,13 @@ namespace Sharper
             var client = _ as DiscordClient;
             try
             {
-
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 SharedData.LogProvider.Log(LogLevel.Error, e);
             }
         }
-        #endregion
+
+        #endregion PERIODIC_CALLBACKS
     }
 }

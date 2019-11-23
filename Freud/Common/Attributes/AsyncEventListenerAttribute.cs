@@ -17,7 +17,7 @@ namespace Sharper.Common.Attributes
             this.Target = targetType;
         }
 
-        public void Register(SharperShard shard, DiscordClient client, MethodInfo info)
+        public void Register(FreudShard shard, DiscordClient client, MethodInfo info)
         {
             Task OnEventWithArgs(object e)
             {
