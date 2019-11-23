@@ -1,10 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿#region USING_DIRECTIVES
+
+using System;
+
+#endregion USING_DIRECTIVES
 
 namespace Freud
 {
-    class SharedData
+    public sealed class SharedData : IDisposable
     {
+        // fields
+
+        public SharedData()
+        {
+        }
+
+        public void Dispose()
+        {
+        }
+
+        #region CHANNEL_EVENT_HELPERS
+
+        // todo:
+
+        #endregion CHANNEL_EVENT_HELPERS
     }
 }
