@@ -1,17 +1,19 @@
 ﻿#region USING_DIRECTIVES
+
+using DSharpPlus;
+using DSharpPlus.EventArgs;
+using Newtonsoft.Json;
+using Sharper.Common.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DSharpPlus;
-using DSharpPlus.EventArgs;
-using Newtonsoft.Json;
-using Sharper.Common.Configuration;
-#endregion
 
-namespace Sharper
+#endregion USING_DIRECTIVES
+
+namespace Sharper.Common
 {
     public sealed class Logger
     {
@@ -19,6 +21,7 @@ namespace Sharper
 
         public int BufferSize { get; set; }
         public LogLevel LogLevel { get; set; }
+
         public bool LogToFile
         {
             get => this.filelog;
@@ -58,7 +61,8 @@ namespace Sharper
                 try
                 {
                     File.Delete(this.path);
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     this.Log(LogLevel.Error, e);
 
@@ -155,6 +159,7 @@ namespace Sharper
         }
 
         #region FILE_LOGGING
+
         private void WriteToLogFile(LogLevel level, string message, DateTime? timestamp = null)
         {
             try
@@ -166,7 +171,8 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 this.Log(LogLevel.Error, e, filelog: false);
             }
@@ -183,7 +189,8 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            } catch (Exception exc)
+            }
+            catch (Exception exc)
             {
                 this.Log(LogLevel.Error, exc, filelog: false);
             }
@@ -204,7 +211,8 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            } catch (Exception exc)
+            }
+            catch (Exception exc)
             {
                 this.Log(LogLevel.Error, exc, filelog: false);
             }
@@ -222,14 +230,17 @@ namespace Sharper
                     sw.WriteLine();
                     sw.Flush();
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 this.Log(LogLevel.Error, e, filelog: false);
             }
         }
-        #endregion
+
+        #endregion FILE_LOGGING
 
         #region CONSOLE_PRINT_HELPERS
+
         private static void PrintLevel(LogLevel level)
         {
             switch (level)
@@ -238,14 +249,18 @@ namespace Sharper
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
+
                 case LogLevel.Error:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
+
                 case LogLevel.Warning:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
+
                 case LogLevel.Info:
                     break;
+
                 case LogLevel.Debug:
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     break;
@@ -273,7 +288,8 @@ namespace Sharper
 
         private static void PrintLogMessage(string message = "")
             => Console.WriteLine(string.IsNullOrWhiteSpace(message) ? "" : $"{_separator}{message.Trim()}");
-        #endregion
+
+        #endregion CONSOLE_PRINT_HELPERS
 
         public sealed class SpecialLoggingRule
         {

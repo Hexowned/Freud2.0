@@ -4,7 +4,7 @@ using System;
 
 #endregion USING_DIRECTIVES
 
-namespace Sharper.Common
+namespace Sharper.Common.Tasks
 {
     public enum SavedTaskType : byte
     {

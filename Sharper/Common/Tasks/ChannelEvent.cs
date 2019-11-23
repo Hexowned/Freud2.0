@@ -1,10 +1,12 @@
 ﻿#region USING_DIRECTIVES
-using System.Threading.Tasks;
+
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
-#endregion
+using System.Threading.Tasks;
 
-namespace Sharper.Common
+#endregion USING_DIRECTIVES
+
+namespace Sharper.Common.Tasks
 {
     public abstract class ChannelEvent
     {

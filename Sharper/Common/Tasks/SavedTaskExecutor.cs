@@ -4,7 +4,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Sharper.Common.Configuration;
-using Sharper.Common.Tasks;
 using Sharper.Database;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES
 
-namespace Sharper.Common
+namespace Sharper.Common.Tasks
 {
     public sealed class SavedTaskExecutor : AsyncExecutor, IDisposable
     {

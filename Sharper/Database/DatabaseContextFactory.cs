@@ -1,16 +1,18 @@
 ﻿#region USING_DIRECTIVES
 
-using System.IO;
-using System.Text;
+using Microsoft.EntityFrameworkCore.Design;
 using Newtonsoft.Json;
 using Sharper.Common.Configuration;
-#endregion
+using System.IO;
+using System.Text;
+
+#endregion USING_DIRECTIVES
 
 namespace Sharper.Database
 {
-    public class DatabaseContextFactory
+    public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
     {
-        public DatabaseContext CreateDatabaseContext(params string[] args)
+        public DatabaseContext CreateDbContext(params string[] args)
         {
             BotConfiguration cfg = BotConfiguration.Default;
             string json = "{}";
@@ -24,7 +26,8 @@ namespace Sharper.Database
                     using (var sr = new StreamReader(fs, utf8))
                         json = sr.ReadToEnd();
                     cfg = JsonConvert.DeserializeObject<BotConfiguration>(json);
-                } catch
+                }
+                catch
                 {
                     cfg = BotConfiguration.Default;
                 }
