@@ -29,14 +29,14 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administration\Common\" />
-    <Folder Include="Modules\Reminders\" />
     <Folder Include="Modules\Polls\" />
     <Folder Include="Modules\Search\" />
     <Folder Include="Modules\Reactions\" />
     <Folder Include="Modules\Currency\" />
     <Folder Include="Modules\Misc\" />
     <Folder Include="Modules\Owner\" />
-    <Folder Include="Resources\" />
+    <Folder Include="Resources\linkfilter\" />
+    <Folder Include="Resources\cards\" />
   </ItemGroup>
 
 </Project>

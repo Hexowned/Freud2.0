@@ -10,8 +10,8 @@ namespace Freud.Common.Attributes
 {
     internal enum ModuleType
     {
-        Uncategorized
-        //todo when I figure out "cogs" or modules that the bot will use
+        Uncategorized,
+        Reminders
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]

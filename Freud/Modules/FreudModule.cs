@@ -4,6 +4,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Freud.Common.Configuration;
+using Freud.Database.Db;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -78,7 +79,7 @@ namespace Freud.Modules
         {
             try
             {
-                HttpResponseMessage response = await _http.GetAsync(uri).ConfigureAwait(false);
+                var response = await _http.GetAsync(uri).ConfigureAwait(false);
                 if (response.Content.Headers.ContentType.MediaType.StartsWith("image/"))
                     return true;
             } catch

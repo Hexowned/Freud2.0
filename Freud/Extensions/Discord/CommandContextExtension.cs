@@ -45,7 +45,7 @@ namespace Freud.Extensions.Discord
                 return ctx.Channel.SendMessageAsync(content: pages.First().Content, embed: pages.First().Embed);
         }
 
-        public static async Task<bool> WaitForBoolreplyAsync(this CommandContext ctx, string question, DiscordChannel channel = null, bool reply = true)
+        public static async Task<bool> WaitForBoolReplyAsync(this CommandContext ctx, string question, DiscordChannel channel = null, bool reply = true)
         {
             channel = channel ?? ctx.Channel;
 
@@ -55,7 +55,7 @@ namespace Freud.Extensions.Discord
                 Color = DiscordColor.Yellow
             });
 
-            if (await ctx.Client.GetInteractivity().WaitForBoolreplyAsync(ctx))
+            if (await ctx.Client.GetInteractivity().WaitForBoolReplyAsync(ctx))
                 return true;
             if (reply)
                 await channel.InformOfFailureAsync("Alrighty, aboring...");
