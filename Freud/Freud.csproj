@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Administration\Services\" />
     <Folder Include="Modules\Administration\Common\" />
     <Folder Include="Modules\Reminders\" />
     <Folder Include="Modules\Polls\" />
