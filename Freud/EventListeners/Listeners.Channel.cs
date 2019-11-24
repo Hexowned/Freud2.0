@@ -1,9 +1,12 @@
 ﻿#region USING_DIRECTIVES
 
+using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Freud.Common;
 using Freud.Common.Attributes;
+using Freud.EventListeners.Extensions;
+using System.Linq;
 using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES
@@ -40,11 +43,11 @@ namespace Freud.EventListeners
         [AsyncEventListener(DiscordEventType.ChannelDeleted)]
         public static async Task ChannelDeleteEventHandlerAsync(FreudShard shard, ChannelDeleteEventArgs e)
         {
-            DiscordChannel logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
+            var logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
             if (logchn is null || e.Channel.IsExempted(shard))
                 return;
 
-            DiscordEmbedBuilder emb = FormEmbedBuilder(EventOrigin.Channel, "Channel deleted", e.Channel.ToString());
+            var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel deleted", e.Channel.ToString());
             emb.AddField("Channel type", e.Channel?.Type.ToString() ?? _unknown, inline: true);
             DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelDelete);
 
@@ -105,12 +108,16 @@ namespace Freud.EventListeners
 
                 if (!(centry.BitrateChange is null))
                     emb.AddField("Bitrate changed to", centry.BitrateChange.After.ToString(), inline: true);
+
                 if (!(centry.NameChange is null))
                     emb.AddField("Name changed to", centry.NameChange.After, inline: true);
+
                 if (!(centry.NsfwChange is null))
                     emb.AddField("NSFW flag changed to", centry.NsfwChange.After.Value.ToString(), inline: true);
+
                 if (!(centry.OverwriteChange is null))
                     emb.AddField("Permission overwrites changed", $"{centry.OverwriteChange.After.Count} overwrites after changes");
+
                 if (!(centry.TopicChange is null))
                 {
                     string ptopic = Formatter.BlockCode(FormatterExtensions.StripMarkdown(string.IsNullOrWhiteSpace(centry.TopicChange.Before) ? " " : centry.TopicChange.Before));
@@ -120,8 +127,10 @@ namespace Freud.EventListeners
 
                 if (!(centry.TypeChange is null))
                     emb.AddField("Type changed to", centry.TypeChange.After.Value.ToString());
+
                 if (!(centry.PerUserRateLimitChange is null))
                     emb.AddField("Per-user rate limit changed to", centry.PerUserRateLimitChange.After.Value.ToString());
+
                 if (!string.IsNullOrWhiteSpace(centry.Reason))
                     emb.AddField("Reason", centry.Reason);
                 emb.WithFooter($"At {centry.CreationTimestamp.ToUniversalTime().ToString()} UTC", centry.UserResponsible.AvatarUrl);
@@ -152,20 +161,22 @@ namespace Freud.EventListeners
                 if (!(entry is null) && entry is DiscordAuditLogOverwriteEntry owentry)
                 {
                     emb.WithDescription($"{owentry.Channel.ToString()} ({type})");
-                    emb.AddField"User responsible", owentry.UserResponsible.Mention ?? _unknown, inline: true);
+                    emb.AddField("User responsible", owentry.UserResponsible.Mention ?? _unknown, inline: true);
 
                     DiscordUser member = null;
                     DiscordRole role = null;
                     try
                     {
-                        bool isMemberUpdated = owentry.Target.Type.HasFlag(OverwriteTyoe.Member);
+                        bool isMemberUpdated = owentry.Target.Type.HasFlag(OverwriteType.Member);
                         if (isMemberUpdated)
                             member = await e.Client.GetUserAsync(owentry.Target.Id);
                         else
                             role = e.Guild.GetRole(owentry.Target.Id);
                         emb.AddField("Target", isMemberUpdated ? member.ToString() : role.ToString(), inline: true);
+
                         if (!(owentry.AllowChange is null))
                             emb.AddField("Allowed", $"{owentry.Target.Allowed.ToPermissionString() ?? _unknown}", inline: true);
+
                         if (!(owentry.DenyChange is null))
                             emb.AddField("Denied", $"{owentry.Target.Denied.ToPermissionString() ?? _unknown}", inline: true);
                     } catch

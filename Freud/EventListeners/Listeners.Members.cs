@@ -176,10 +176,13 @@ namespace Freud.EventListeners
                 emb.AddField("User responsible", mentry.UserResponsible.Mention, inline: true);
                 if (!(mentry.NicknameChange is null))
                     emb.AddField("Nickname change", $"{mentry.NicknameChange.Before} -> {mentry.NicknameChange.After}", inline: true);
+
                 if (!(mentry.AddedRoles is null))
                     emb.AddField("Added roles", string.Join(",", mentry.AddedRoles.Select(r => r.Name)), inline: true);
+
                 if (!(mentry.RemovedRoles is null))
                     emb.AddField("Removed roles", string.Join(",", mentry.RemovedRoles.Select(r => r.Name)), inline: true);
+
                 if (!string.IsNullOrWhiteSpace(mentry.Reason))
                     emb.AddField("Reason", mentry.Reason);
                 emb.WithFooter(mentry.CreationTimestamp.ToUtcTimestamp(), mentry.UserResponsible.AvatarUrl);
@@ -226,8 +229,10 @@ namespace Freud.EventListeners
             emb.WithDescription(e.UserAfter.ToString());
             if (e.UserAfter.Username != e.UserBefore.Username)
                 emb.AddField("Changed discriminator", $"{e.UserBefore.Discriminator} to {e.UserAfter.Discriminator}");
+
             if (e.UserAfter.AvatarUrl != e.UserBefore.AvatarUrl)
                 emb.AddField("Changed avatar", Formatter.MaskedUrl("Old Avatar (note: 404 possible)", new Uri(e.UserBefore.AvatarUrl)));
+
             emb.WithThumbnailUrl(e.UserAfter.AvatarUrl);
 
             if (!emb.Fields.Any())

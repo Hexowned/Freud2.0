@@ -1,7 +1,6 @@
 ﻿#region USING_DIRECTIVES
 
 using DSharpPlus;
-using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Freud.Common;
 using Freud.Common.Attributes;
@@ -19,7 +18,7 @@ namespace Freud.EventListeners
         [AsyncEventListener(DiscordEventType.ClientErrored)]
         public static Task ClientErrorEventHandlerAsync(FreudShard shard, ClientErrorEventArgs e)
         {
-            Exception ex = e.Exception;
+            var ex = e.Exception;
             while (ex is AggregateException)
                 ex = ex.InnerException;
 
@@ -57,12 +56,12 @@ namespace Freud.EventListeners
         }
 
         [AsyncEventListener(DiscordEventType.GuildCreated)]
-        public static Task GuildCreatedEventhandlerAsync(FreudShard shard, GuildCreateEventArgs e)
+        public static async Task GuildCreatedEventhandlerAsync(FreudShard shard, GuildCreateEventArgs e)
         {
             shard.Log(LogLevel.Info, $"Joined guild: {e.Guild.ToString()}");
             await RegisterGuildAsync(shard.SharedData, shard.Database, e.Guild.Id);
 
-            DiscordChannel defChannel = e.Guild.GetDefaultChannel();
+            var defChannel = e.Guild.GetDefaultChannel();
             if (!defChannel.PermissionsFor(e.Guild.CurrentMember).HasPermission(Permissions.SendMessages))
                 return;
             await defChannel.EmbedAsync(

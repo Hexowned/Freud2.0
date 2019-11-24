@@ -164,16 +164,21 @@ namespace Freud.EventListeners
                 emb.AddField("User responsible", rentry.UserResponsible.Mention, inline: true);
                 if (!(rentry.NameChange is null))
                     emb.AddField("Name change", $"{rentry.NameChange.Before ?? _unknown} -> {rentry.NameChange.After ?? _unknown}", inline: true);
+
                 if (!(rentry.ColorChange is null))
                     emb.AddField("Color change", $"{rentry.ColorChange.Before?.ToString() ?? _unknown} -> {rentry.ColorChange.After?.ToString() ?? _unknown}", inline: true);
                 if (!(rentry.HoistChange is null))
                     emb.AddField("Hoist changed to", rentry.HoistChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(rentry.MentionableChange is null))
                     emb.AddField("Mentionable changed to", rentry.MentionableChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(rentry.PermissionChange is null))
                     emb.AddField("Permissions changed to", rentry.PermissionChange.After?.ToPermissionString() ?? _unknown, inline: true);
+
                 if (!(rentry.PositionChange is null))
                     emb.AddField("Position changed to", rentry.PositionChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!string.IsNullOrWhiteSpace(rentry.Reason))
                     emb.AddField("Reason", rentry.Reason);
                 emb.WithFooter(rentry.CreationTimestamp.ToUtcTimestamp(), rentry.UserResponsible.AvatarUrl);
@@ -226,16 +231,22 @@ namespace Freud.EventListeners
                 emb.AddField("User responsible", rentry.UserResponsible.Mention, inline: true);
                 if (!(rentry.NameChange is null))
                     emb.AddField("Name change", $"{rentry.NameChange.Before ?? _unknown} -> {rentry.NameChange.After ?? _unknown}", inline: true);
+
                 if (!(rentry.ColorChange is null))
                     emb.AddField("Color change", $"{rentry.ColorChange.Before?.ToString() ?? _unknown} -> {rentry.ColorChange.After?.ToString() ?? _unknown}", inline: true);
+
                 if (!(rentry.HoistChange is null))
                     emb.AddField("Hoist", rentry.HoistChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(rentry.MentionableChange is null))
                     emb.AddField("Mentionable", rentry.MentionableChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(rentry.PermissionChange is null))
                     emb.AddField("Permissions change to", rentry.PermissionChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(rentry.PositionChange is null))
                     emb.AddField("Position changed to", rentry.PositionChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!string.IsNullOrWhiteSpace(rentry.Reason))
                     emb.AddField("Reason", rentry.CreationTimestamp.ToUtcTimestamp(), rentry.UserResponsible.AvatarUrl);
             } else
@@ -261,16 +272,22 @@ namespace Freud.EventListeners
                 emb.AddField("User responsible", gentry.UserResponsible.Mention, inline: true);
                 if (!(gentry.NameChange is null))
                     emb.AddField("Name change", $"{gentry.NameChange.Before ?? _unknown} -> {gentry.NameChange.After ?? _unknown}", inline: true);
+
                 if (!(gentry.AfkChannelChange is null))
                     emb.AddField("AFK channel changed to", gentry.AfkChannelChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(gentry.EmbedChannelChange is null))
                     emb.AddField("Embed channel changed to", gentry.EmbedChannelChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!(gentry.IconChange is null))
                     emb.AddField("Icon changed to", gentry.IconChange.After ?? _unknown, inline: true);
+
                 if (!(gentry.NotificationSettingsChange is null))
                     emb.AddField("Notifications changed to", gentry.NotificationSettingsChange.After.HasFlag(DefaultMessageNotifications.AllMessages) ? "All messages" : "Mentions only", inline: true);
+
                 if (!(gentry.OwnerChange is null))
                     emb.AddField("Owner changed to", gentry.OwnerChange.After?.ToString() ?? _unknown, inline: true);
+
                 if (!string.IsNullOrWhiteSpace(gentry.Reason))
                     emb.AddField("Reason", gentry.Reason);
                 emb.WithFooter(gentry.CreationTimestamp.ToUtcTimestamp(), gentry.UserResponsible.AvatarUrl);

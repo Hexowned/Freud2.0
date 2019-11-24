@@ -8,6 +8,7 @@ using Freud.Common.Configuration;
 using Freud.Common.Tasks;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 
 #endregion USING_DIRECTIVES
@@ -115,7 +116,7 @@ namespace Freud
 
         public string GetGuildPrefix(ulong gid)
         {
-            if (this.GuildConfigurations.TryGetValue(gid, out CachedGuildConfiguration gfcg) && !string.IsNullOrWhiteSpace(gcfg.Prefix))
+            if (this.GuildConfigurations.TryGetValue(gid, out var gcfg) && !string.IsNullOrWhiteSpace(gcfg.Prefix))
                 return this.GuildConfigurations[gid].Prefix;
             else
                 return this.BotConfiguration.DefaultPrefix;
@@ -129,11 +130,11 @@ namespace Freud
         }
 
         public bool GuildHasTextReaction(ulong gid, string trigger)
-            => this.TextReactions.TryGetValue(gid, out ConcurrentHashSet<TextReaction> trs) && (trs?.Any(tr => tr.ContainsTriggerPattern(trigger)) ?? false);
+            => this.TextReactions.TryGetValue(gid, out var trs) && (trs?.Any(tr => tr.ContainsTriggerPattern(trigger)) ?? false);
 
         public bool MessageContainsFilter(ulong gid, string message)
         {
-            if (!this.Filters.TryGetValue(gid, out ConcurrentHashSet<Filter> filters) || filters is null)
+            if (!this.Filters.TryGetValue(gid, out var filters) || filters is null)
                 return false;
             message = message.ToLowerInvariant();
 

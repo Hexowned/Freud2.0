@@ -5,6 +5,7 @@ using DSharpPlus.Entities;
 using Freud.Common;
 using Freud.Common.Collections;
 using Freud.Common.Configuration;
+using Freud.Common.Tasks;
 using Freud.Database.Db;
 using Newtonsoft.Json;
 using System;
@@ -208,7 +209,7 @@ namespace Freud
             }
 
             var logger = new Logger(BotConfiguration);
-            foreach (Logger.SpecialLoggingRule rule in BotConfiguration.SpecialLoggerRules)
+            foreach (var rule in BotConfiguration.SpecialLoggerRules)
                 logger.ApplySpecialLoggingRule(rule);
 
             SharedData = new SharedData
@@ -288,10 +289,10 @@ namespace Freud
                 SharedData.LogProvider.ElevatedLog(LogLevel.Info, $"Saved tasks: {scheduled} scheduled; {missed} missed.");
             }
 
-            async Task RegisterRemindersAsync(IReadOnlyDictionary<int, SendMessageTaskInfo> reminders)
+            async Task RegisterReminderAsync(IReadOnlyDictionary<int, SendMessageTaskInfo> reminders)
             {
                 int scheduled = 0, missed = 0;
-                foreach ((int tid, SendMessageTaskInfo task) in reminders)
+                foreach ((int tid, var task) in reminders)
                 {
                     if (await RegisterTaskAsync(tid, task))
                         scheduled++;

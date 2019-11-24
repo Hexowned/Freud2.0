@@ -3,6 +3,9 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
+using Freud.Common.Configuration;
+using Freud.Database.Db;
+using Freud.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -54,8 +57,8 @@ namespace Freud.Common.Tasks
 
         public static Task UnscheduleAsync(SharedData shared, ulong uid, int id)
         {
-            if (shared.RemindExecuters.TryGetValue(uid, out ConcurrentDictionary<int, SavedTaskExecutor> texecs))
-                return texecs.TryGetValue(id, out SavedTaskExecutor texec) ? texec.UnscheduleAsync() : Task.CompletedTask;
+            if (shared.RemindExecuters.TryGetValue(uid, out var texecs))
+                return texecs.TryGetValue(id, out var texec) ? texec.UnscheduleAsync() : Task.CompletedTask;
             else
                 return Task.CompletedTask;
         }
@@ -115,7 +118,7 @@ namespace Freud.Common.Tasks
                             channel = await this.client.GetChannelAsync(smti.ChannelId);
                         else
                             channel = await this.client.CreateDmChannelAsync(smti.InitiatorId);
-                        DiscordUser user = await this.client.GetUserAsync(smti.InitiatorId);
+                        var user = await this.client.GetUserAsync(smti.InitiatorId);
                         await channel?.SendMessageAsync($"{user.Mention}'s reminder:", embed: new DiscordEmbedBuilder
                         {
                             Description = $"{StaticDiscordEmoji.X} I have been asleep and failed to remind {user.Mention} to:\n\n{smti.Message}\n\n{smti.ExecutionTime.ToUtcTimestamp()}",
@@ -163,7 +166,7 @@ namespace Freud.Common.Tasks
                         if (texecs.Count == 0)
                             this.shared.RemindExecuters.TryRemove(smti.InitiatorId, out ConcurrentDictionary<int, SavedTaskExecutor> _);
                     }
-                    using (DatabaseContext dc = this.dcb.CreateContext())
+                    using (var dc = this.dcb.CreateContext())
                     {
                         dc.Reminders.Remove(new DatabaseReminder { Id = this.Id });
                         await dc.SaveChangesAsync();
@@ -175,7 +178,7 @@ namespace Freud.Common.Tasks
                 case UnbanTaskInfo _:
                 case UnmuteTaskInfo _:
                     this.shared.TaskExecuters.TryRemove(this.Id, out SavedTaskExecutor _);
-                    using (DatabaseContext dc = this.dcb.CreateContext())
+                    using (var dc = this.dcb.CreateContext())
                     {
                         dc.SavedTasks.Remove(new DatabaseSavedTask { Id = this.Id });
                         await dc.SaveChangesAsync();
@@ -198,13 +201,13 @@ namespace Freud.Common.Tasks
                 if (info.ChannelId != 0)
                 {
                     channel = this.Execute(this.client.GetChannelAsync(info.ChannelId));
-                    DiscordMember member = this.Execute(channel.Guild.GetMemberAsync(info.InitiatorId));
+                    var member = this.Execute(channel.Guild.GetMemberAsync(info.InitiatorId));
                     if (!(member is null) && channel.PermissionsFor(member).HasPermission(Permissions.AccessChannels | Permissions.SendMessages))
                         SendMessage(member);
                 } else
                 {
                     channel = this.Execute(this.client.CreateDmChannelAsync(info.InitiatorId));
-                    DiscordUser user = this.Execute(this.client.GetUserAsync(info.InitiatorId));
+                    var user = this.Execute(this.client.GetUserAsync(info.InitiatorId));
                     SendMessage(user);
                 }
 
@@ -243,7 +246,7 @@ namespace Freud.Common.Tasks
             var info = _ as UnbanTaskInfo;
             try
             {
-                DiscordGuild guild = this.Execute(this.client.GetGuildAsync(info.GuildId));
+                var guild = this.Execute(this.client.GetGuildAsync(info.GuildId));
                 this.Execute(guild.UnbanMemberAsync(info.UnbanId, $"Temporary ban time expired"));
             } catch (UnauthorizedException)
             { // Do nothing, perms to unban removed
@@ -267,9 +270,9 @@ namespace Freud.Common.Tasks
             var info = _ as UnmuteTaskInfo;
             try
             {
-                DiscordGuild guild = this.Execute(this.client.GetGuildAsync(info.GuildId));
-                DiscordRole role = guild.GetRole(info.MuteRoleId);
-                DiscordMember member = this.Execute(guild.GetMemberAsync(info.UserId));
+                var guild = this.Execute(this.client.GetGuildAsync(info.GuildId));
+                var role = guild.GetRole(info.MuteRoleId);
+                var member = this.Execute(guild.GetMemberAsync(info.UserId));
                 if (role is null)
                     return;
                 this.Execute(member.RevokeRoleAsync(role, $"Temporary mute time expired"));
@@ -282,6 +285,7 @@ namespace Freud.Common.Tasks
             {
                 try
                 {
+                    a
                     this.Execute(this.UnscheduleAsync());
                 } catch (Exception e)
                 {

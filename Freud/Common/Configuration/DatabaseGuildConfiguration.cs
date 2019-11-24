@@ -1,5 +1,6 @@
 ﻿#region USING_DIRECTIVES
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -90,9 +91,8 @@ namespace Freud.Common.Configuration
 
         #endregion ANTIINSTANTLEAVE
 
-
-
         #region RATELIMIT
+
         //
 
         #endregion RATELIMIT
