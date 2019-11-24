@@ -65,14 +65,14 @@ namespace Freud.EventListeners
         [AsyncEventListener(DiscordEventType.ChannelPinsUpdated)]
         public static async Task ChannelPinsUpdateEventHandlerAsync(FreudShard shard, ChannelPinsUpdateEventArgs e)
         {
-            DiscordChannel logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Channel.Guild);
+            var logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Channel.Guild);
             if (logchn is null || e.Channel.IsExempted(shard))
                 return;
 
-            DiscordEmbedBuilder emb = FormEmbedBuilder(EventOrigin.Channel, "Channel pins updated", e.Channel.ToString());
+            var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel pins updated", e.Channel.ToString());
             emb.AddField("Channel", e.Channel.Mention, inline: true);
 
-            System.Collections.Generic.IReadOnlyList<DiscordMessage> pinned = await e.Channel.GetPinnedMessagesAsync();
+            var pinned = await e.Channel.GetPinnedMessagesAsync();
             if (pinned.Any())
             {
                 emb.WithDescription(Formatter.MaskedUrl("Jump to top pin", pinned.First().JumpLink));
@@ -92,11 +92,11 @@ namespace Freud.EventListeners
             if (e.ChannelBefore.Position != e.ChannelAfter.Position)
                 return;
 
-            DiscordChannel logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
+            var logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
             if (logchn is null || e.ChannelBefore.IsExempted(shard))
                 return;
 
-            DiscordEmbedBuilder emb = FormEmbedBuilder(EventOrigin.Channel, "Channel updated");
+            var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel updated");
             DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelUpdate);
             if (!(entry is null) && entry is DiscordAuditLogChannelEntry centry)
             {
@@ -151,9 +151,35 @@ namespace Freud.EventListeners
 
                 if (!(entry is null) && entry is DiscordAuditLogOverwriteEntry owentry)
                 {
-                    // TODO: 146
-                }
+                    emb.WithDescription($"{owentry.Channel.ToString()} ({type})");
+                    emb.AddField"User responsible", owentry.UserResponsible.Mention ?? _unknown, inline: true);
+
+                    DiscordUser member = null;
+                    DiscordRole role = null;
+                    try
+                    {
+                        bool isMemberUpdated = owentry.Target.Type.HasFlag(OverwriteTyoe.Member);
+                        if (isMemberUpdated)
+                            member = await e.Client.GetUserAsync(owentry.Target.Id);
+                        else
+                            role = e.Guild.GetRole(owentry.Target.Id);
+                        emb.AddField("Target", isMemberUpdated ? member.ToString() : role.ToString(), inline: true);
+                        if (!(owentry.AllowChange is null))
+                            emb.AddField("Allowed", $"{owentry.Target.Allowed.ToPermissionString() ?? _unknown}", inline: true);
+                        if (!(owentry.DenyChange is null))
+                            emb.AddField("Denied", $"{owentry.Target.Denied.ToPermissionString() ?? _unknown}", inline: true);
+                    } catch
+                    {
+                        emb.AddField("Target ID", owentry.Target.Id.ToString(), inline: true);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(owentry.Reason))
+                        emb.AddField("Reason", owentry.Reason);
+                    emb.WithFooter(owentry.CreationTimestamp.ToUtcTimestamp(), owentry.UserResponsible.AvatarUrl);
+                } else { return; }
             }
+
+            await logchn.SendMessageAsync(embed: emb.Build());
         }
     }
 }
