@@ -1,11 +1,12 @@
 ﻿#region USING_DIRECTIVES
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Common.Configuration
+namespace Freud.Database.Db
 {
     [Table("guild_cfg")]
     public class DatabaseGuildConfiguration
@@ -84,15 +85,20 @@ namespace Freud.Common.Configuration
 
         #endregion ANTIFLOOD
 
-        #region ANTIINSTANTLEAVE
+        #region ANTIINSTANCELEAVE
 
         //
 
-        #endregion ANTIINSTANTLEAVE
+        #endregion ANTIINSTANCELEAVE
 
+        #region ANTISPAM
 
+        //
+
+        #endregion ANTISPAM
 
         #region RATELIMIT
+
         //
 
         #endregion RATELIMIT
@@ -100,27 +106,12 @@ namespace Freud.Common.Configuration
         [NotMapped]
         public CachedGuildConfiguration CachedConfiguration
         {
-            get => new CachedConfiguration
+            get => new CachedGuildConfiguration
             {
-                AntispamSettings = this.AntispamSettings,
-                Currency = this.Currency,
-                LinkfilterSettings = this.LinkfilterSettings,
-                LogChannelId = this.LogChannelId,
-                Prefix = this.Prefix,
-                RatelimitSettings = this.RatelimitSettings,
-                ReactionResponse = this.ReactionResponse,
-                SuggestionsEnabled = this.SuggestionsEnabled
             };
+
             set
             {
-                this.AntispamSettings = value.AntispamSettings;
-                this.Currency = value.Currency;
-                this.LinkfilterSettings = value.LinkfilterSettings;
-                this.LogChannelId = value.LogChannelId;
-                this.Prefix = value.Prefix;
-                this.RatelimitSettings = value.RatelimitSettings;
-                this.ReactionResponse = value.ReactionResponse;
-                this.SuggestionsEnabled = value.SuggestionsEnabled;
             }
         }
 
@@ -142,5 +133,4 @@ namespace Freud.Common.Configuration
         public virtual ICollection<DatabaseRssSubscription> Subscriptions { get; set; }
         public virtual ICollection<DatabaseTextReaction> TextReactions { get; set; }
     }
-}
 }

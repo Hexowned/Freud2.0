@@ -28,7 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Freud.Database\Freud.Database.csproj" />
+    <Folder Include="Modules\Administration\Services\" />
+    <Folder Include="Modules\Administration\Common\" />
+    <Folder Include="Modules\Reminders\" />
+    <Folder Include="Modules\Polls\" />
+    <Folder Include="Modules\Search\" />
+    <Folder Include="Modules\Reactions\" />
+    <Folder Include="Modules\Currency\" />
+    <Folder Include="Modules\Misc\" />
+    <Folder Include="Modules\Owner\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

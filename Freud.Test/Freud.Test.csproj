@@ -13,8 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Freud.Database\Freud.Database.csproj" />
-    <ProjectReference Include="..\Freud.Modules\Freud.Modules.csproj" />
     <ProjectReference Include="..\Freud\Freud.csproj" />
   </ItemGroup>
 
