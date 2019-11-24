@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Extensions
+namespace Freud.Extensions.Discord
 {
     internal static class DiscordUserExtensions
     {

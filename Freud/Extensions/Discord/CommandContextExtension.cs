@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Extensions
+namespace Freud.Extensions.Discord
 {
     internal static class CommandContextExtension
     {
@@ -58,7 +58,7 @@ namespace Freud.Extensions
             if (await ctx.Client.GetInteractivity().WaitForBoolreplyAsync(ctx))
                 return true;
             if (reply)
-                await channel.InformFailureAsync("Alrighty, aboring...");
+                await channel.InformOfFailureAsync("Alrighty, aboring...");
 
             return false;
         }

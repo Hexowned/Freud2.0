@@ -65,7 +65,7 @@ namespace Freud.Modules
             }
         }
 
-        protected Task InformFailureAsync(CommandContext ctx, string message)
+        protected Task InformOfFailureAsync(CommandContext ctx, string message)
         {
             return ctx.RespondAsync(embed: new DiscordEmbedBuilder
             {

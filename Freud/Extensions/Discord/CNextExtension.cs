@@ -7,7 +7,7 @@ using System.Linq;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Extensions
+namespace Freud.Extensions.Discord
 {
     internal static class CNextExtension
     {

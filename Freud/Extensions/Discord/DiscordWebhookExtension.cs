@@ -4,7 +4,7 @@ using DSharpPlus.Entities;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Extensions
+namespace Freud.Extensions.Discord
 {
     public static class DiscordWebhookExtension
     {
