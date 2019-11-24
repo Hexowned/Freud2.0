@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Freud.Extensions
 {
-    internal static class CommandContextExtensions
+    internal static class CommandContextExtension
     {
         public static string BuildInvocationDetailsString(this CommandContext ctx, string reason = null)
             => $"{ctx.User} : {reason ?? "No reason provided."} | Invoked in: {ctx.Channel}";

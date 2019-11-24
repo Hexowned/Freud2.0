@@ -6,7 +6,7 @@ using System;
 
 namespace Freud.Extensions
 {
-    internal static class DateTimeExtensions
+    internal static class DateTimeExtension
     {
         public static string ToUtcTimestamp(this DateTime datetime)
             => $"At {datetime.ToUniversalTime().ToString()} UTC";

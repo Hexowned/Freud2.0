@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Freud.Extensions
 {
-    internal static class CNextExtensions
+    internal static class CNextExtension
     {
         public static IReadOnlyList<Command> GetAllRegisteredCommands(this CommandsNextExtension cnext)
         {
