@@ -144,7 +144,7 @@ namespace Freud.EventListeners
                                         sb.AppendLine($"- I do not have sufficient permissions ({bperms.Permissions.ToPermissionString()})!");
                                         break;
 
-                                    case RequirePriviledgedUserAttribute _:
+                                    case RequirePrivilegedUserAttribute _:
                                         sb.AppendLine($"- That command is reserved for my owner and privileged users!");
                                         break;
 

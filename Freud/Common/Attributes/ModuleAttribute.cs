@@ -10,8 +10,13 @@ namespace Freud.Common.Attributes
 {
     internal enum ModuleType
     {
-        Uncategorized,
-        Reminders
+        Administration,
+        Currency,
+        Games,
+        Reminders,
+        Miscellaneous,
+        Owner,
+        Uncategorized
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]

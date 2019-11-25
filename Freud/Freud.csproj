@@ -12,8 +12,10 @@
     <PackageReference Include="DSharpPlus.Lavalink" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.WebSocket.WebSocket4NetCore" Version="4.0.0-nightly-00635" />
+    <PackageReference Include="Humanizer.Core" Version="2.7.9" />
     <PackageReference Include="Imgur.API" Version="5.0.0-beta1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.4.0-beta4-final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.4.0-beta4-final" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0-preview3.19554.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0-preview3.19554.8">
       <PrivateAssets>all</PrivateAssets>
@@ -25,16 +27,19 @@
     <PackageReference Include="Npgsql" Version="4.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0-preview3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="2.0.0-preview1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0-preview3.19551.4" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Modules\Administration\Common\" />
+    <Folder Include="Modules\Owner\Extensions\" />
     <Folder Include="Modules\Polls\" />
     <Folder Include="Modules\Search\" />
     <Folder Include="Modules\Reactions\" />
     <Folder Include="Modules\Currency\" />
     <Folder Include="Modules\Misc\" />
-    <Folder Include="Modules\Owner\" />
     <Folder Include="Resources\linkfilter\" />
     <Folder Include="Resources\cards\" />
   </ItemGroup>

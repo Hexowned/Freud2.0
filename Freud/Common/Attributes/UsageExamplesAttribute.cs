@@ -10,11 +10,11 @@ using System.Linq;
 namespace Freud.Common.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class UsageExamplesAttributes : Attribute
+    public sealed class UsageExampleArgsAttribute : Attribute
     {
         public string[] Examples { get; private set; }
 
-        public UsageExamplesAttributes(params string[] examples)
+        public UsageExampleArgsAttribute(params string[] examples)
         {
             if (examples is null)
                 throw new ArgumentException($"No examples provided to {this.GetType().Name}!");
