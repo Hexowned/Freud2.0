@@ -36,7 +36,6 @@
     <Folder Include="Modules\Administration\Common\" />
     <Folder Include="Modules\Owner\Extensions\" />
     <Folder Include="Modules\Search\" />
-    <Folder Include="Modules\Reactions\" />
     <Folder Include="Modules\Currency\" />
     <Folder Include="Modules\Misc\" />
     <Folder Include="Resources\linkfilter\" />

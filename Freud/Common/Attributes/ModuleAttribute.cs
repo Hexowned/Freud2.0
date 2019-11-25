@@ -17,7 +17,8 @@ namespace Freud.Common.Attributes
         Miscellaneous,
         Owner,
         Polls,
-        Uncategorized
+        Uncategorized,
+        Reactions
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
