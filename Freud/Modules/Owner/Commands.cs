@@ -56,7 +56,17 @@ namespace Freud.Modules.Owner
                 if (cs1 == -1 || cs2 == -1)
                     throw new InvalidCommandUsageException("You need to wrap the code into a code block.");
 
-                code = $@"{code.Substring(cs1, cs2 - cs1)}";
+                code = $@"
+[ModuleLifespan(ModuleLifespan.Transient)]
+public sealed class DynamicCommands : FreudModule
+{{
+    public Dynamic Commands(SharedData shared, DatabaseContextBuilder dcb) : base(shard, dcb)
+    {{
+        this.ModuleColor = DiscordColor.NotQuiteBlack;
+    }}
+
+    {code.Substring(cs1, cs2 - cs1)}
+}}";
 
                 string type = $"DynamicCommands{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
                 Type moduleType = null;

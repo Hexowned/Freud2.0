@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Modules\Administration\Common\" />
     <Folder Include="Modules\Owner\Extensions\" />
-    <Folder Include="Modules\Polls\" />
     <Folder Include="Modules\Search\" />
     <Folder Include="Modules\Reactions\" />
     <Folder Include="Modules\Currency\" />

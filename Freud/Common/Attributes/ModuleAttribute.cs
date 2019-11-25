@@ -16,6 +16,7 @@ namespace Freud.Common.Attributes
         Reminders,
         Miscellaneous,
         Owner,
+        Polls,
         Uncategorized
     }
 
