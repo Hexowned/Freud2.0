@@ -1,7 +1,9 @@
 ﻿#region USING_DIRECTIVES
 
+using Freud.Common.Configuration;
 using Freud.Database.Db.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using static Freud.Database.Db.DatabaseConfiguration;
 
@@ -26,7 +28,7 @@ namespace Freud.Database.Db
         public virtual DbSet<DatabaseFilter> Filters { get; set; }
         public virtual DbSet<DatabaseForbiddenName> ForbiddenNames { get; set; }
         public virtual DbSet<DatabaseGameStats> GameStats { get; set; }
-        public virtual DbSet<DatabaseGuildConfig> GuildConfig { get; set; }
+        public virtual DbSet<DatabaseGuildConfiguration> GuildConfiguration { get; set; }
         public virtual DbSet<DatabaseGuildRank> GuildRanks { get; set; }
         public virtual DbSet<DatabaseInsult> Insults { get; set; }
         public virtual DbSet<DatabaseExemptLogging> LoggingExempts { get; set; }
