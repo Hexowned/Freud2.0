@@ -12,6 +12,7 @@
     <PackageReference Include="DSharpPlus.Lavalink" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.VoiceNext" Version="4.0.0-nightly-00635" />
     <PackageReference Include="DSharpPlus.WebSocket.WebSocket4NetCore" Version="4.0.0-nightly-00635" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.42.0.1758" />
     <PackageReference Include="Humanizer.Core" Version="2.7.9" />
     <PackageReference Include="Imgur.API" Version="5.0.0-beta1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.4.0-beta4-final" />
@@ -30,14 +31,16 @@
     <PackageReference Include="System.Drawing.Common" Version="4.7.0-preview3.19551.4" />
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="YoutubeExplode" Version="4.7.10" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Modules\Administration\Configuration\" />
     <Folder Include="Modules\Owner\Extensions\" />
-    <Folder Include="Modules\Search\" />
     <Folder Include="Modules\Currency\" />
     <Folder Include="Modules\Misc\" />
+    <Folder Include="Modules\Search\Extensions\" />
+    <Folder Include="Modules\Search\Common\" />
     <Folder Include="Resources\linkfilter\" />
     <Folder Include="Resources\cards\" />
   </ItemGroup>

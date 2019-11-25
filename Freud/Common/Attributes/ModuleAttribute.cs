@@ -18,7 +18,8 @@ namespace Freud.Common.Attributes
         Owner,
         Polls,
         Uncategorized,
-        Reactions
+        Reactions,
+        Music
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
