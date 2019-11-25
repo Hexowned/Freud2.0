@@ -1,0 +1,58 @@
+﻿#region USING_DIRECTIVES
+
+using Freud.Extensions;
+using System;
+using System.Threading;
+
+#endregion USING_DIRECTIVES
+
+namespace Freud.Modules.Administration.Common
+{
+    public sealed class UserSpamInfo
+    {
+        private static readonly TimeSpan _resetAfter = TimeSpan.FromHours(1);
+
+        public int RemainingUsers => Volatile.Read(ref this.remainingUses);
+        public bool IsActive => DateTimeOffset.UtcNow <= this.resetsAt;
+        private DateTimeOffset resetsAt;
+        private int remainingUses;
+        private readonly int maxAmount;
+        private readonly object decrementLock;
+        private string lastContent;
+
+        public UserSpamInfo(int maxRepeats)
+        {
+            this.maxAmount = maxRepeats;
+            this.remainingUses = maxRepeats;
+            this.resetsAt = DateTimeOffset.UtcNow + _resetAfter;
+            this.decrementLock = new object();
+            this.lastContent = string.Empty;
+        }
+
+        public bool TryDecrementAllowedMessageCount(string newContent)
+        {
+            newContent = newContent.ToLowerInvariant();
+
+            lock (this.decrementLock)
+            {
+                var now = DateTimeOffset.UtcNow;
+                if (now >= this.resetsAt || (!string.IsNullOrWhiteSpace(newContent) && this.lastContent.LevenshteinDistance(newContent) > 2))
+                {
+                    Interlocked.Exchange(ref this.remainingUses, this.maxAmount);
+                    this.resetsAt = now + _resetAfter;
+                    this.lastContent = newContent;
+                }
+
+                if (this.remainingUses > 0)
+                    Interlocked.Decrement(ref this.remainingUses);
+            }
+
+            return this.remainingUses > 0;
+        }
+
+        public void Reset()
+        {
+            this.resetsAt = DateTimeOffset.UtcNow;
+        }
+    }
+}

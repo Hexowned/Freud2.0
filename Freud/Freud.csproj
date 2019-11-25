@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Administration\Common\" />
+    <Folder Include="Modules\Administration\Configuration\" />
     <Folder Include="Modules\Owner\Extensions\" />
     <Folder Include="Modules\Search\" />
     <Folder Include="Modules\Currency\" />
