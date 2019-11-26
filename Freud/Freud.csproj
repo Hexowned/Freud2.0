@@ -39,7 +39,6 @@
     <Folder Include="Modules\Owner\Extensions\" />
     <Folder Include="Modules\Currency\" />
     <Folder Include="Modules\Misc\" />
-    <Folder Include="Modules\Search\Extensions\" />
     <Folder Include="Resources\linkfilter\" />
     <Folder Include="Resources\cards\" />
   </ItemGroup>
