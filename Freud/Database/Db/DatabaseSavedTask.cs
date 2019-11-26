@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Freud.Database.Db
 {
+    [Table("saved_tasks")]
     public class DatabaseSavedTask
     {
         public static DatabaseSavedTask FromSavedTaskInfo(SavedTaskInfo tinfo)
@@ -41,7 +42,7 @@ namespace Freud.Database.Db
         [Column("id")]
         public int Id { get; set; }
 
-        [ForeignKey("DbGuildConfig")]
+        [ForeignKey("DbGuildConfiguration")]
         [Column("gid")]
         public long GuildIdDb { get; set; }
 

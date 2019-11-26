@@ -16,7 +16,7 @@ namespace Freud.Modules.Reminders
     {
         [Group("here")]
         [Description("Send a reminder to the current channel after a specific time span.")]
-        [UsageExamplesAttributes("3h Do 50 pushups!", "3h30m Do pushups!")]
+        [UsageExampleArgs("3h Do 50 pushups!", "3h30m Do pushups!")]
         public class RemindHereModule : RemindModule
         {
             public RemindHereModule(SharedData shared, DatabaseContextBuilder dcb)
@@ -37,7 +37,7 @@ namespace Freud.Modules.Reminders
 
             [Group("in")]
             [Description("Send a reminder to the current channel after a specific time span.")]
-            [UsageExamplesAttributes("3h Do 50 pushups!", "3h30m Do pushups!")]
+            [UsageExampleArgs("3h Do 50 pushups!", "3h30m Do pushups!")]
             public class RemindHereInModule : RemindHereModule
             {
                 public RemindHereInModule(SharedData shared, DatabaseContextBuilder dcb)
@@ -55,7 +55,7 @@ namespace Freud.Modules.Reminders
 
             [Group("at")]
             [Description("Send a reminder to the current channel at a specific point in time (given by date and time string).")]
-            [UsageExamplesAttributes("\"12.07.2019 00:00\" Do")]
+            [UsageExampleArgs("\"12.07.2019 00:00\" Do")]
             public class RemindHereAtModule : RemindModule
             {
                 public RemindHereAtModule(SharedData shared, DatabaseContextBuilder dcb)

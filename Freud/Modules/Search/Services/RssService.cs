@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -40,7 +41,7 @@ namespace Freud.Modules.Search.Services
                         continue;
                     }
 
-                    SyndicationItem latest = GetFeedResults(feed.Url)?.FirstOrDefault();
+                    var latest = GetFeedResults(feed.Url)?.FirstOrDefault();
                     if (latest is null)
                         continue;
 
@@ -148,7 +149,7 @@ namespace Freud.Modules.Search.Services
                 Color = DiscordColor.White
             };
 
-            foreach (SyndicationItem res in results)
+            foreach (var res in results)
                 emb.AddField(res.Title.Text.Truncate(255), res.Links.First().Uri.ToString());
 
             await channel.SendMessageAsync(embed: emb.Build());

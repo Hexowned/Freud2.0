@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Freud.Common.Configuration;
+using Freud.Modules.Administration;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Freud.Database.Db.Entities
 {

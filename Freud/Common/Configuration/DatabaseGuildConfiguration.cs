@@ -1,5 +1,6 @@
 ﻿#region USING_DIRECTIVES
 
+using Freud.Database.Db;
 using Freud.Database.Db.Entities;
 using Freud.Modules.Administration.Common;
 using Freud.Modules.Administration.Services;
@@ -20,13 +21,10 @@ namespace Freud.Common.Configuration
             this.AntispamExempts = new HashSet<DatabaseExemptAntispam>();
             this.AutoRoles = new HashSet<DatabaseAutoRole>();
             this.Birthdays = new HashSet<DatabaseBirthday>();
-            this.Chickens = new HashSet<DatabaseChicken>();
-            this.ChickensBoughtUpgrades = new HashSet<DatabaseChickenBoughtUpgrade>();
             this.EmojiReactions = new HashSet<DatabaseEmojiReaction>();
             this.Filters = new HashSet<DatabaseFilter>();
             this.LoggingExempts = new HashSet<DatabaseExemptLogging>();
             this.Memes = new HashSet<DatabaseMeme>();
-            this.PurchasableItems = new HashSet<DatabasePurchasableItem>();
             this.Ranks = new HashSet<DatabaseGuildRank>();
             this.RatelimitExempts = new HashSet<DatabaseExemptRatelimit>();
             this.SavedTasks = new HashSet<DatabaseSavedTask>();
@@ -284,13 +282,10 @@ namespace Freud.Common.Configuration
         public virtual ICollection<DatabaseExemptAntispam> AntispamExempts { get; set; }
         public virtual ICollection<DatabaseAutoRole> AutoRoles { get; set; }
         public virtual ICollection<DatabaseBirthday> Birthdays { get; set; }
-        public virtual ICollection<DatabaseChicken> Chickens { get; set; }
-        public virtual ICollection<DatabaseChickenBoughtUpgrade> ChickensBoughtUpgrades { get; set; }
         public virtual ICollection<DatabaseEmojiReaction> EmojiReactions { get; set; }
         public virtual ICollection<DatabaseFilter> Filters { get; set; }
         public virtual ICollection<DatabaseExemptLogging> LoggingExempts { get; set; }
         public virtual ICollection<DatabaseMeme> Memes { get; set; }
-        public virtual ICollection<DatabasePurchasableItem> PurchasableItems { get; set; }
         public virtual ICollection<DatabaseGuildRank> Ranks { get; set; }
         public virtual ICollection<DatabaseExemptRatelimit> RatelimitExempts { get; set; }
         public virtual ICollection<DatabaseSavedTask> SavedTasks { get; set; }

@@ -81,7 +81,7 @@ namespace Freud.Modules.Administration.Configuration
 
             #region COMMAND_CONFIGURATION_WIZARD
 
-            [Command("setup"), UsesInteractivity]
+            [Command("setup"), UsageInteractivity]
             [Description("Starts an interactive wizard for configuring the guild settings.")]
             [Aliases("wizard")]
             public async Task SetupAsync(CommandContext ctx)

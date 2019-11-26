@@ -27,7 +27,7 @@ namespace Freud.Modules.Search.Extensions
         {
             var pages = new List<Page>();
 
-            foreach (GoodreadsWork work in info.Results)
+            foreach (var work in info.Results)
             {
                 var emb = new DiscordEmbedBuilder
                 {
@@ -160,22 +160,6 @@ namespace Freud.Modules.Search.Extensions
             emb.WithThumbnailUrl(WeatherService.GetWeatherIconUrl(data.Weather.FirstOrDefault()));
 
             emb.WithFooter("Powered by openweathermap.org");
-
-            return emb;
-        }
-
-        public static DiscordEmbedBuilder ToDiscordEmbedBuilder(this XkcdComic comic, DiscordColor? color = null)
-        {
-            var emb = new DiscordEmbedBuilder
-            {
-                Title = $"xkcd #{comic.Id} : {comic.Title}",
-                ImageUrl = comic.ImageUrl,
-                Url = XkcdService.CreateUrlForComic(comic.Id)
-            };
-
-            if (!(color is null))
-                emb.WithColor(color.Value);
-            emb.WithFooter($"Publish date: {comic.Month}/{comic.Year}");
 
             return emb;
         }

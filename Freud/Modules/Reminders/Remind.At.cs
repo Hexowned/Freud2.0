@@ -16,7 +16,7 @@ namespace Freud.Modules.Reminders
     {
         [Group("at")]
         [Description("Send a reminder at a specific point in time (given by date and time string).")]
-        [UsageExamplesAttributes("17:30 Start homework!", "12.18.2019 Meeting at 9", "\"12.10.2019 09:00\" Study for test!")]
+        [UsageExampleArgs("17:30 Start homework!", "12.18.2019 Meeting at 9", "\"12.10.2019 09:00\" Study for test!")]
         public class RemindAtModule : RemindModule
         {
             public RemindAtModule(SharedData shared, DatabaseContextBuilder dcb)

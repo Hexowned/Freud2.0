@@ -2,6 +2,7 @@
 
 using Freud.Common.Configuration;
 using Freud.Database.Db.Entities;
+using Freud.Modules.Administration.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
@@ -20,14 +21,10 @@ namespace Freud.Database.Db
         public virtual DbSet<DatabaseBlockedChannel> BlockedChannels { get; set; }
         public virtual DbSet<DatabaseBlockedUser> BlockedUsers { get; set; }
         public virtual DbSet<DatabaseBotStatus> BotStatuses { get; set; }
-        public virtual DbSet<DatabaseChicken> Chickens { get; set; }
-        public virtual DbSet<DatabaseChickenBoughtUpgrade> ChickensBoughtUpgrades { get; set; }
-        public virtual DbSet<DatabaseChickenUpgrade> ChickenUpgrades { get; set; }
         public virtual DbSet<DatabaseCommandRule> CommandRules { get; set; }
         public virtual DbSet<DatabaseEmojiReaction> EmojiReactions { get; set; }
         public virtual DbSet<DatabaseFilter> Filters { get; set; }
         public virtual DbSet<DatabaseForbiddenName> ForbiddenNames { get; set; }
-        public virtual DbSet<DatabaseGameStats> GameStats { get; set; }
         public virtual DbSet<DatabaseGuildConfiguration> GuildConfiguration { get; set; }
         public virtual DbSet<DatabaseGuildRank> GuildRanks { get; set; }
         public virtual DbSet<DatabaseInsult> Insults { get; set; }
@@ -35,16 +32,12 @@ namespace Freud.Database.Db
         public virtual DbSet<DatabaseMeme> Memes { get; set; }
         public virtual DbSet<DatabaseMessageCount> MessageCount { get; set; }
         public virtual DbSet<DatabasePrivilegedUser> PrivilegedUsers { get; set; }
-        public virtual DbSet<DatabasePurchasableItem> PurchasableItems { get; set; }
-        public virtual DbSet<DatabasePurchasedItem> PurchasedItems { get; set; }
         public virtual DbSet<DatabaseExemptRatelimit> RatelimitExempts { get; set; }
         public virtual DbSet<DatabaseReminder> Reminders { get; set; }
         public virtual DbSet<DatabaseRssFeed> RssFeeds { get; set; }
         public virtual DbSet<DatabaseRssSubscription> RssSubscriptions { get; set; }
         public virtual DbSet<DatabaseSavedTask> SavedTasks { get; set; }
         public virtual DbSet<DatabaseSelfRole> SelfAssignableRoles { get; set; }
-        public virtual DbSet<DatabaseSwatPlayer> SwatPlayers { get; set; }
-        public virtual DbSet<DatabaseSwatServer> SwatServers { get; set; }
         public virtual DbSet<DatabaseTextReaction> TextReactions { get; set; }
 
         private string ConnectionString { get; }
@@ -91,29 +84,11 @@ namespace Freud.Database.Db
             model.Entity<DatabaseBirthday>().HasKey(e => new { e.GuildIdDb, e.ChannelIdDb, e.UserIdDb });
             model.Entity<DatabaseBlockedChannel>().Property(bc => bc.Reason).HasDefaultValue(null);
             model.Entity<DatabaseBlockedUser>().Property(bu => bu.Reason).HasDefaultValue(null);
-            model.Entity<DatabaseChicken>().HasKey(e => new { e.GuildIdDb, e.UserIdDb });
-            model.Entity<DatabaseChickenBoughtUpgrade>().HasKey(e => new { e.Id, e.GuildIdDb, e.UserIdDb });
-            model.Entity<DatabaseChickenBoughtUpgrade>().HasOne(bu => bu.DbChickenUpgrade).WithMany(u => u.BoughtUpgrades).HasForeignKey(u => u.Id);
-            model.Entity<DatabaseChickenBoughtUpgrade>().HasOne(bu => bu.DbChicken).WithMany(u => u.DbUpgrades).HasForeignKey(bu => new { bu.GuildIdDb, bu.UserIdDb });
             model.Entity<DatabaseEmojiReactionTrigger>().HasKey(t => new { t.ReactionId, t.Trigger });
             model.Entity<DatabaseCommandRule>().HasKey(e => new { e.GuildIdDb, e.ChannelIdDb, e.Command });
             model.Entity<DatabaseExemptAntispam>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
             model.Entity<DatabaseExemptLogging>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
             model.Entity<DatabaseExemptRatelimit>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
-            model.Entity<DatabaseGameStats>().Property(s => s.AnimalRacesWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.CaroLost).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.CaroWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.Chain4Lost).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.Chain4Won).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.DuelsLost).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.DuelsWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.HangmanWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.NumberRacesWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.OthelloLost).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.OthelloWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.QuizesWon).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.TicTacToeLost).HasDefaultValue(0);
-            model.Entity<DatabaseGameStats>().Property(s => s.TicTacToeWon).HasDefaultValue(0);
             model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodAction).HasDefaultValue(PunishmentActionType.PermanentBan);
             model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodCooldown).HasDefaultValue(10);
             model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodEnabled).HasDefaultValue(false);
@@ -145,17 +120,10 @@ namespace Freud.Database.Db
             model.Entity<DatabaseGuildRank>().HasKey(e => new { e.GuildIdDb, e.Rank });
             model.Entity<DatabaseMeme>().HasKey(e => new { e.GuildIdDb, e.Name });
             model.Entity<DatabaseMessageCount>().Property(ui => ui.MessageCount).HasDefaultValue(1);
-            model.Entity<DatabasePurchasedItem>().HasKey(e => new { e.ItemId, e.UserIdDb });
             model.Entity<DatabaseReminder>().Property(r => r.IsRepeating).HasDefaultValue(false);
             model.Entity<DatabaseReminder>().Property(r => r.RepeatIntervalDb).HasDefaultValue(TimeSpan.FromMilliseconds(-1));
             model.Entity<DatabaseRssSubscription>().HasKey(e => new { e.Id, e.GuildIdDb, e.ChannelIdDb });
             model.Entity<DatabaseSelfRole>().HasKey(e => new { e.GuildIdDb, e.RoleIdDb });
-            model.Entity<DatabaseSwatPlayer>().Property(p => p.IsBlacklisted).HasDefaultValue(false);
-            model.Entity<DatabaseSwatPlayer>().HasIndex(p => p.Name).IsUnique();
-            model.Entity<DatabaseSwatPlayerAlias>().HasKey(p => new { p.Alias, p.PlayerId });
-            model.Entity<DatabaseSwatPlayerIP>().HasKey(p => new { p.IP, p.PlayerId });
-            model.Entity<DatabaseSwatServer>().HasKey(srv => new { srv.IP, srv.JoinPort, srv.QueryPort });
-            model.Entity<DatabaseSwatServer>().Property(srv => srv.JoinPort).HasDefaultValue(10480);
             model.Entity<DatabaseTextReactionTrigger>().HasKey(t => new { t.ReactionId, t.Trigger });
         }
     }

@@ -16,7 +16,7 @@ namespace Freud.Modules.Reminders
     {
         [Group("in")]
         [Description("Send a reminder after a specific time span")]
-        [UsageExamplesAttributes("3h Do 50 pushups!", "3h30m Do 50 pushups!")]
+        [UsageExampleArgs("3h Do 50 pushups!", "3h30m Do 50 pushups!")]
         public class RemindInModule : RemindModule
         {
             public RemindInModule(SharedData shared, DatabaseContextBuilder dcb)

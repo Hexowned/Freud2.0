@@ -6,6 +6,7 @@ namespace Freud.Modules.Search.Common
     public class WeatherData
     {
         public List<Weather> Weather { get; set; }
+        public Coord Coord { get; set; }
         public Main Main { get; set; }
         public int Visibility { get; set; }
         public Wind Wind { get; set; }

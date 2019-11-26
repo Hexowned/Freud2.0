@@ -3,7 +3,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
-
+using Freud.Modules.Administration.Common;
 using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES
@@ -52,7 +52,7 @@ namespace Freud.Common.Converters
                     break;
             }
 
-            return parses ? results : (PunishmentActionType?)null;
+            return parses ? result : (PunishmentActionType?)null;
         }
 
         public Task<Optional<PunishmentActionType>> ConvertAsync(string value, CommandContext ctx)

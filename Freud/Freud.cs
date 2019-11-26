@@ -10,6 +10,7 @@ using Freud.Database.Db;
 using Freud.Database.Db.Entities;
 using Freud.Extensions;
 using Freud.Modules.Administration.Common;
+using Freud.Modules.Administration.Services;
 using Freud.Modules.Reactions;
 using Freud.Modules.Search.Services;
 using Microsoft.EntityFrameworkCore;
@@ -153,7 +154,7 @@ namespace Freud
             await GlobalDatabaseContextBuilder.CreateContext().Database.MigrateAsync();
         }
 
-        private static LoadSharedDataFromDatabase()
+        private static void LoadSharedDataFromDatabase()
         {
             Console.Write("\r[3/5] Loading data from database...                ");
 
@@ -194,25 +195,23 @@ namespace Freud
                         {
                             Action = gcfg.RatelimitAction,
                             Enabled = gcfg.RatelimitEnabled,
-                            Sesitivity = gcfg.RatelimitSensitivity
+                            Sensitivity = gcfg.RatelimitSensitivity
                         },
                         ReactionResponse = gcfg.ReactionResponse,
-                        SuggestionEnabled = gcfg.SuggestionsEnabled
+                        SuggestionsEnabled = gcfg.SuggestionsEnabled
                     })));
                 filters = new ConcurrentDictionary<ulong, ConcurrentHashSet<Filter>>(
                     dc.Filters.GroupBy(f => f.GuildId)
                     .ToDictionary(g => g.Key, g =>
-                    new ConcurrentHashSet<Filter>(g.Select(f => new EventTypeFilter(f.Id, f.Trigger)))));
+                    new ConcurrentHashSet<Filter>(g.Select(f => new Filter(f.Id, f.Trigger)))));
 
                 msgcount = new ConcurrentDictionary<ulong, int>(
                     dc.MessageCount.GroupBy(ui => ui.UserId)
                     .ToDictionary(g => g.Key, g => g.First().MessageCount));
 
-                treactions = new ConcurrentDictionary<ulong, ConcurrentHashSet<TextReaction>>(
-                    dc.TextReactions.Include(t => t.DbTriggers)
-                    .AsEnumerable().GroupBy(er => er.GuildId)
-                    .ToDictionary(g => g.Key, g => new ConcurrentHashSet<EmojiReaction>(g.Select(er =>
-                    new EmojiReaction(er.Id, er.Triggers, er.Reaction, true)))));
+                treactions = new ConcurrentDictionary<ulong, ConcurrentHashSet<TextReaction>>(dc.TextReactions.Include(t => t.DbTriggers).AsEnumerable().GroupBy(tr => tr.GuildId).ToDictionary(g => g.Key, g => new ConcurrentHashSet<TextReaction>(g.Select(tr => new TextReaction(tr.Id, tr.Triggers, tr.Response, true)))));
+
+                ereactions = new ConcurrentDictionary<ulong, ConcurrentHashSet<EmojiReaction>>(dc.EmojiReactions.Include(t => t.DbTriggers).AsEnumerable().GroupBy(er => er.GuildId).ToDictionary(g => g.Key, g => new ConcurrentHashSet<EmojiReaction>(g.Select(er => new EmojiReaction(er.Id, er.Triggers, er.Reaction, true)))));
             }
 
             var logger = new Logger(BotConfiguration);

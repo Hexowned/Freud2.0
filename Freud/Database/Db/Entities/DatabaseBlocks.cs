@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Freud.Database.Db.Entities
 {
     [Table("blocked_users")]
-    public class DatabaseBlocks
+    public class DatabaseBlockedUser
     {
         [Key, Column("uid")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

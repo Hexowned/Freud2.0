@@ -1,4 +1,6 @@
-﻿namespace Freud.Modules.Administration.Services
+﻿using Freud.Modules.Administration.Common;
+
+namespace Freud.Modules.Administration.Services
 {
     public sealed class RatelimitSettings
     {

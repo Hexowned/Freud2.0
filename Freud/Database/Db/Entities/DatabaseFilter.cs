@@ -1,5 +1,6 @@
 ﻿#region USING_DIRECTIVES
 
+using Freud.Common.Configuration;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
