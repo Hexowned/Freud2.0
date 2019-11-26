@@ -3,6 +3,7 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using Freud.Database.Db;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Freud.Common.Attributes
     {
         public override Task<bool> ExecuteCheckAsync(CommandContext ctx, bool help)
         {
-            SharedData shared = ctx.Services.GetService<SharedData>();
+            var shared = ctx.Services.GetService<SharedData>();
             if (shared.ListeningStatus)
             {
                 if (shared.BlockedUsers.Contains(ctx.User.Id) || shared.BlockedChannels.Contains(ctx.Channel.Id))
@@ -45,10 +46,10 @@ namespace Freud.Common.Attributes
 
         private bool BlockingCommandRuleExists(CommandContext ctx)
         {
-            DatabaseContextBuilder dbb = ctx.Services.GetService<DatabaseContextBuilder>();
-            using (DatabaseContext db = dbb.CreateContext())
+            var dcb = ctx.Services.GetService<DatabaseContextBuilder>();
+            using (var dc = dcb.CreateContext())
             {
-                IQueryable<DatabaseCommandRule> dbrules = db.commandRules
+                var dbrules = dc.CommandRules
                     .Where(cr => cr.GuildId == ctx.Guild.Id && (cr.ChannelId == ctx.Channel.Id || cr.ChannelId == 0) && ctx.Command.QualifiedName.StartsWith(cr.Command));
                 if (!dbrules.Any() || dbrules.Any(cr => cr.ChannelId == ctx.Channel.Id && cr.Allowed))
                     return false;

@@ -31,7 +31,7 @@ namespace Freud.Common.Attributes
             if (ctx.Member is null)
                 return Task.FromResult(false);
 
-            Permissions mperms = ctx.Channel.PermissionsFor(ctx.Member);
+            var mperms = ctx.Channel.PermissionsFor(ctx.Member);
             return Task.FromResult((mperms & this.Permissions) == this.Permissions);
         }
     }
