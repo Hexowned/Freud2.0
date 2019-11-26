@@ -6,6 +6,8 @@ using Freud.Common;
 using Freud.Common.Collections;
 using Freud.Common.Configuration;
 using Freud.Common.Tasks;
+using Freud.Modules.Administration.Common;
+using Freud.Modules.Reactions;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;

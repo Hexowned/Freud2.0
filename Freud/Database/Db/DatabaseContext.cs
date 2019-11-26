@@ -86,7 +86,77 @@ namespace Freud.Database.Db
         {
             model.HasDefaultSchema("f");
 
-            // TODO:
+            model.Entity<DatabaseAutoRole>().HasKey(e => new { e.GuildIdDb, e.RoleIdDb });
+            model.Entity<DatabaseBankAccount>().HasKey(e => new { e.GuildIdDb, e.UserIdDb });
+            model.Entity<DatabaseBirthday>().HasKey(e => new { e.GuildIdDb, e.ChannelIdDb, e.UserIdDb });
+            model.Entity<DatabaseBlockedChannel>().Property(bc => bc.Reason).HasDefaultValue(null);
+            model.Entity<DatabaseBlockedUser>().Property(bu => bu.Reason).HasDefaultValue(null);
+            model.Entity<DatabaseChicken>().HasKey(e => new { e.GuildIdDb, e.UserIdDb });
+            model.Entity<DatabaseChickenBoughtUpgrade>().HasKey(e => new { e.Id, e.GuildIdDb, e.UserIdDb });
+            model.Entity<DatabaseChickenBoughtUpgrade>().HasOne(bu => bu.DbChickenUpgrade).WithMany(u => u.BoughtUpgrades).HasForeignKey(u => u.Id);
+            model.Entity<DatabaseChickenBoughtUpgrade>().HasOne(bu => bu.DbChicken).WithMany(u => u.DbUpgrades).HasForeignKey(bu => new { bu.GuildIdDb, bu.UserIdDb });
+            model.Entity<DatabaseEmojiReactionTrigger>().HasKey(t => new { t.ReactionId, t.Trigger });
+            model.Entity<DatabaseCommandRule>().HasKey(e => new { e.GuildIdDb, e.ChannelIdDb, e.Command });
+            model.Entity<DatabaseExemptAntispam>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
+            model.Entity<DatabaseExemptLogging>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
+            model.Entity<DatabaseExemptRatelimit>().HasKey(e => new { e.IdDb, e.GuildIdDb, e.Type });
+            model.Entity<DatabaseGameStats>().Property(s => s.AnimalRacesWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.CaroLost).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.CaroWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.Chain4Lost).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.Chain4Won).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.DuelsLost).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.DuelsWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.HangmanWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.NumberRacesWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.OthelloLost).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.OthelloWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.QuizesWon).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.TicTacToeLost).HasDefaultValue(0);
+            model.Entity<DatabaseGameStats>().Property(s => s.TicTacToeWon).HasDefaultValue(0);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodAction).HasDefaultValue(PunishmentActionType.PermanentBan);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodCooldown).HasDefaultValue(10);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntifloodSensitivity).HasDefaultValue(5);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntiInstantLeaveCooldown).HasDefaultValue(3);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntiInstantLeaveEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntispamAction).HasDefaultValue(PunishmentActionType.PermanentMute);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntispamEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.AntispamSensitivity).HasDefaultValue(5);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.Currency).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LogChannelIdDb).HasDefaultValue();
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.MuteRoleIdDb).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LeaveChannelIdDb).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LeaveMessage).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterBootersEnabled).HasDefaultValue(true);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterDiscordInvitesEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterDisturbingWebsitesEnabled).HasDefaultValue(true);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterIpLoggersEnabled).HasDefaultValue(true);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.LinkfilterUrlShortenersEnabled).HasDefaultValue(true);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.Prefix).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.RatelimitAction).HasDefaultValue(PunishmentActionType.TemporaryMute);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.RatelimitEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.RatelimitSensitivity).HasDefaultValue(5);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.ReactionResponse).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.SuggestionsEnabled).HasDefaultValue(false);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.WelcomeChannelIdDb).HasDefaultValue(null);
+            model.Entity<DatabaseGuildConfiguration>().Property(gcfg => gcfg.WelcomeMessage).HasDefaultValue(null);
+            model.Entity<DatabaseGuildRank>().HasKey(e => new { e.GuildIdDb, e.Rank });
+            model.Entity<DatabaseMeme>().HasKey(e => new { e.GuildIdDb, e.Name });
+            model.Entity<DatabaseMessageCount>().Property(ui => ui.MessageCount).HasDefaultValue(1);
+            model.Entity<DatabasePurchasedItem>().HasKey(e => new { e.ItemId, e.UserIdDb });
+            model.Entity<DatabaseReminder>().Property(r => r.IsRepeating).HasDefaultValue(false);
+            model.Entity<DatabaseReminder>().Property(r => r.RepeatIntervalDb).HasDefaultValue(TimeSpan.FromMilliseconds(-1));
+            model.Entity<DatabaseRssSubscription>().HasKey(e => new { e.Id, e.GuildIdDb, e.ChannelIdDb });
+            model.Entity<DatabaseSelfRole>().HasKey(e => new { e.GuildIdDb, e.RoleIdDb });
+            model.Entity<DatabaseSwatPlayer>().Property(p => p.IsBlacklisted).HasDefaultValue(false);
+            model.Entity<DatabaseSwatPlayer>().HasIndex(p => p.Name).IsUnique();
+            model.Entity<DatabaseSwatPlayerAlias>().HasKey(p => new { p.Alias, p.PlayerId });
+            model.Entity<DatabaseSwatPlayerIP>().HasKey(p => new { p.IP, p.PlayerId });
+            model.Entity<DatabaseSwatServer>().HasKey(srv => new { srv.IP, srv.JoinPort, srv.QueryPort });
+            model.Entity<DatabaseSwatServer>().Property(srv => srv.JoinPort).HasDefaultValue(10480);
+            model.Entity<DatabaseTextReactionTrigger>().HasKey(t => new { t.ReactionId, t.Trigger });
         }
     }
 }

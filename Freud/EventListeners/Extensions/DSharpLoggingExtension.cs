@@ -1,7 +1,7 @@
 ﻿#region USING_DIRECTIVES
 
 using DSharpPlus.Entities;
-using Freud.Database.Db;
+using Freud.Modules.Administration;
 using System.Linq;
 
 #endregion USING_DIRECTIVES
@@ -12,7 +12,7 @@ namespace Freud.EventListeners.Extensions
     {
         public static bool IsExempted(this DiscordChannel channel, FreudShard shard)
         {
-            using (DatabaseContext dc = shard.Database.CreateContext())
+            using (var dc = shard.Database.CreateContext())
             {
                 if (dc.LoggingExempts.Any(ee => ee.GuildId == channel.GuildId && ee.Type == ExemptedEntityType.Channel && (ee.Id == channel.Id || ee.Id == channel.Parent.Id)))
                     return true;
@@ -26,7 +26,7 @@ namespace Freud.EventListeners.Extensions
             if (member is null)
                 return false;
 
-            using (DatabaseContext dc = shard.Database.CreateContext())
+            using (var dc = shard.Database.CreateContext())
             {
                 if (dc.LoggingExempts.Any(ee => ee.Type == ExemptedEntityType.Member && ee.Id == member.Id))
                     return true;

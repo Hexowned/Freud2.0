@@ -7,12 +7,14 @@ using Freud.Common.Collections;
 using Freud.Common.Configuration;
 using Freud.Common.Tasks;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -278,7 +280,7 @@ namespace Freud
             async Task RegisterSavedTasksAsync(IReadOnlyDictionary<int, SavedTaskInfo> tasks)
             {
                 int scheduled = 0, missed = 0;
-                foreach ((int tid, SavedTaskInfo task) in tasks)
+                foreach ((int tid, var task) in tasks)
                 {
                     if (await RegisterTaskAsync(tid, task))
                         scheduled++;

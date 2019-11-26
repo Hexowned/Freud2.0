@@ -3,11 +3,16 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using DSharpPlus.Interactivity.Concurrency;
 using Freud.Common;
 using Freud.Common.Attributes;
 using Freud.Common.Configuration;
-
+using Freud.Database.Db.Entities;
+using Freud.Discord.Extensions;
+using Freud.EventListeners.Extensions;
+using Freud.Extensions;
+using Freud.Extensions.Discord;
+using Freud.Modules.Administration.Services;
+using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Threading.Tasks;
@@ -105,10 +110,10 @@ namespace Freud.EventListeners
                 return;
             if (!e.Channel.PermissionsFor(e.Guild.CurrentMember).HasFlag(Permissions.AddReactions))
                 return;
-            if (!shard.SharedData.EmojiReactions.TryGetValue(e.Guild.Id, out ConcurrentHashSet<EmojiReaction> ereactions))
+            if (!shard.SharedData.EmojiReactions.TryGetValue(e.Guild.Id, out var ereactions))
                 return;
 
-            EmojiReaction ereaction = ereactions?.Where(er => er.IsMatch(e.Message?.Content ?? "")).Shuffle().FirstOrDefault();
+            var ereaction = ereactions?.Where(er => er.IsMatch(e.Message?.Content ?? "")).Shuffle().FirstOrDefault();
 
             if (!(ereaction is null))
             {
@@ -121,7 +126,7 @@ namespace Freud.EventListeners
                 {
                     using (var dc = shard.Database.CreateContext())
                     {
-                        dc.EmojiReacitons.RemoveRange(dc.EmojiReactions.Where(er => er.GuildId == e.Guild.Id && er.Reaction == ereaction.Response));
+                        dc.EmojiReactions.RemoveRange(dc.EmojiReactions.Where(er => er.GuildId == e.Guild.Id && er.Reaction == ereaction.Response));
 
                         await dc.SaveChangesAsync();
                     }
@@ -140,10 +145,10 @@ namespace Freud.EventListeners
                 return;
             if (!e.Channel.PermissionsFor(e.Guild.CurrentMember).HasFlag(Permissions.SendMessages))
                 return;
-            if (!shard.SharedData.TextReactions.TryGetValue(e.Guild.Id, out ConcurrentHashSet<TextReaction> treactions))
+            if (!shard.SharedData.TextReactions.TryGetValue(e.Guild.Id, out var treactions))
                 return;
 
-            TextReaction tr = treactions?.FirstOrDefault(r => r.IsMatch(e.Message.Content));
+            var tr = treactions?.FirstOrDefault(r => r.IsMatch(e.Message.Content));
 
             if (!tr?.IsCooldownActive() ?? false)
 
@@ -166,7 +171,7 @@ namespace Freud.EventListeners
             emb.AddField("Location", e.Channel.Mention, inline: true);
             emb.AddField("Author", e.Message.Author?.Mention ?? _unknown, inline: true);
 
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.MessageDelete);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.MessageDelete);
             if (!(entry is null) && entry is DiscordAuditLogMessageEntry mentry)
             {
                 var member = await e.Guild.GetMemberAsync(mentry.UserResponsible.Id);

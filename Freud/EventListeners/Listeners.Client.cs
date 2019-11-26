@@ -6,7 +6,9 @@ using Freud.Common;
 using Freud.Common.Attributes;
 using Freud.Common.Configuration;
 using Freud.Database.Db;
+using Freud.Extensions.Discord;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 #endregion USING_DIRECTIVES

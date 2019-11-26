@@ -52,7 +52,7 @@ namespace Freud.Common.Tasks
             Exception tex = null;
             T result = default;
 
-            var are = new AutoResetEvent(false);
+            var reset = new AutoResetEvent(false);
             _ = Task.Run(async () =>
             {
                 try
@@ -63,10 +63,10 @@ namespace Freud.Common.Tasks
                     tex = ex;
                 } finally
                 {
-                    are.Set();
+                    reset.Set();
                 }
             });
-            are.WaitOne();
+            reset.WaitOne();
 
             this.sem.Release();
 

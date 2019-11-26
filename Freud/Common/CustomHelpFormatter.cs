@@ -93,7 +93,7 @@ namespace Freud.Common
                 foreach (var overload in cmd.Overloads.OrderByDescending(o => o.Priority))
                 {
                     var ab = new StringBuilder();
-                    foreach (CommandArgument arg in overload.Arguments)
+                    foreach (var arg in overload.Arguments)
                     {
                         if (arg.IsOptional)
                             ab.Append("(optional)");

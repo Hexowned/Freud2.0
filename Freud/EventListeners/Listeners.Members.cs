@@ -3,9 +3,14 @@
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using DSharpPlus.Exceptions;
 using Freud.Common;
 using Freud.Common.Attributes;
 using Freud.Common.Configuration;
+using Freud.Discord.Extensions;
+using Freud.Extensions;
+using Freud.Extensions.Discord;
+using Freud.Modules.Administration.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +25,13 @@ namespace Freud.EventListeners
         [AsyncEventListener(DiscordEventType.GuildMemberAdded)]
         public static async Task MemberJoinEventHandlerAsync(FreudShard shard, GuildMemberAddEventArgs e)
         {
-            DatabaseGuildConfiguration gcfg = e.Guild.GetGuildSettings(shard.Database);
+            var gcfg = e.Guild.GetGuildSettings(shard.Database);
             await Task.Delay(TimeSpan.FromSeconds(gcfg.AntiInstantLeaveSettings.Cooldown + 1));
             if (e.Member.Guild is null)
                 return;
 
             var whcn = e.Guild.GetChannel(gcfg.WelcomeChannelId);
-            if (!(wchn is null))
+            if (!(whcn is null))
             {
                 if (string.IsNullOrWhiteSpace(gcfg.WelcomeMessage))
                     await whcn.EmbedAsync($"Welcome to {Formatter.Bold(e.Guild.Name)}, {e.Member.Mention}!", StaticDiscordEmoji.Wave);
@@ -38,7 +43,7 @@ namespace Freud.EventListeners
                 using (var dc = shard.Database.CreateContext())
                 {
                     IQueryable<ulong> rids = dc.AutoAssinableRoles.Where(dbr => dbr.RoleId);
-                    foreach (ulong rid in rids.ToLost())
+                    foreach (ulong rid in rids.ToList())
                     {
                         try
                         {
@@ -103,12 +108,12 @@ namespace Freud.EventListeners
             if (e.Member is null || e.Member.IsBot)
                 return;
 
-            DatabaseGuildConfiguration gcfg = e.Guild.GetGuildSettings(shard.Database);
+            var gcfg = e.Guild.GetGuildSettings(shard.Database);
             if (gcfg.AntifloodEnabled)
                 await shard.CNext.Services.GetService<AntifloodService>().HandlerMemberJoinAsync(e, gcfg.AntifloodSettings);
 
             if (gcfg.AntiInstantLeaveEnabled)
-                await shard.CNext.Services.GetService<AntiInstanceLeaveService>().HandleMemerJoinAsync(e, gcfg.AntiInstantLeaveSettings);
+                await shard.CNext.Services.GetService<AntiInstantLeaveService>().HandleMemerJoinAsync(e, gcfg.AntiInstantLeaveSettings);
         }
 
         [AsyncEventListener(DiscordEventType.GuildMemberRemoved)]
@@ -117,11 +122,11 @@ namespace Freud.EventListeners
             if (e.Member.IsCurrent)
                 return;
 
-            DatabaseGuildConfiguration gcfg = e.Guild.GetGuildSettings(shard.Database);
+            var gcfg = e.Guild.GetGuildSettings(shard.Database);
             bool punished = false;
 
             if (gcfg.AntiInstantLeaveEnabled)
-                punished = await shard.CNext.Services.GetService<AntiInstanceLeaveService>().HandleMemberLeaveAsync(e, gcfg.AntiInstantLeaveSettings);
+                punished = await shard.CNext.Services.GetService<AntiInstantLeaveService>().HandleMemberLeaveAsync(e, gcfg.AntiInstantLeaveSettings);
             if (!punished)
             {
                 var lchn = e.Guild.GetChannel(gcfg.LeaveChannelId);
@@ -130,7 +135,7 @@ namespace Freud.EventListeners
                     if (string.IsNullOrWhiteSpace(gcfg.LeaveMessage))
                         await lchn.EmbedAsync($"{Formatter.Bold(e.Member?.Username ?? _unknown)} bailed from the channel", StaticDiscordEmoji.Wave);
                     else
-                        await lchn.EmbedAsync(gcfg.LeaveMessage.Replace("%user%", e.Member?.Username >> _unknown), StaticDiscordEmoji.Wave);
+                        await lchn.EmbedAsync(gcfg.LeaveMessage.Replace("%user%", e.Member?.Username ?? _unknown), StaticDiscordEmoji.Wave);
                 }
             }
 
@@ -139,8 +144,8 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Member, "Member left", e.Member.ToString());
-            DiscordAuditLogEntry kickEntry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Kick);
-            if (!(kickEntry is null) && kickEntry is DiscordAuditLogKickEntry ke && ke.Target.Id == e.Member)
+            var kickEntry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Kick);
+            if (!(kickEntry is null) && kickEntry is DiscordAuditLogKickEntry ke && ke.Target.Id == e.Member.Id)
             {
                 emb.WithTitle("Member kicked");
                 emb.AddField("User responsible", ke.UserResponsible.Mention);
@@ -197,20 +202,21 @@ namespace Freud.EventListeners
 
             using (var dc = shard.Database.CreateContext())
             {
-                if (!string.IsNullOrWhiteSpace(e.NicknameAfter) && dc.ForbiddenNames.Any(n => n.GuildId == e.Guild.Id && Regex.IsMatch(e.NicknameAfter)){
+                if (!string.IsNullOrWhiteSpace(e.NicknameAfter) && dc.ForbiddenNames.Any(n => n.GuildId == e.Guild.Id && n.Regex.IsMatch(e.NicknameAfter)))
+                {
                     try
                     {
                         await e.Member.ModifyAsync(m =>
                         {
                             m.Nickname = e.NicknameBefore;
-                            m.AuditLogReason = "_gf: Forbidden name match";
+                            m.AuditLogReason = "_f: Forbidden name match";
                         });
                         emb.AddField("Additional actions taken", "Removed name due to a match with a forbidden name");
                         if (!e.Member.IsBot)
-                            await e.Member.SendMessageAsync($"The nickname you changed to in {e.Guild.Name} are forbidden by my rules. Select a different nickname");
+                            await e.Member.SendMessageAsync($"The nickname you tried to set in the guild {e.Guild.Name} is forbidden by the guild administrator. Please set a different name.");
                     } catch (UnauthorizedException)
                     {
-                        emb.AddField("Additional actions taken", "Matched foribidden name, but I failed to remove it. Check my permissions");
+                        emb.AddField("Additional actions taken", "Matched forbidden name, but I failed to remove it. Check my permissions");
                     }
                 }
             }
@@ -247,7 +253,7 @@ namespace Freud.EventListeners
                     continue;
                 if (await e.UserAfter.IsMemberOfGuildAsync(guild))
 
-                    await logchn.SendMessageAsync(embed: emb.Build);
+                    await logchn.SendMessageAsync(embed: emb.Build());
             }
         }
     }

@@ -5,7 +5,10 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Freud.Common;
 using Freud.Common.Attributes;
+using Freud.Discord.Extensions;
 using Freud.EventListeners.Extensions;
+using Freud.Extensions;
+using Humanizer;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,12 +21,12 @@ namespace Freud.EventListeners
         [AsyncEventListener(DiscordEventType.ChannelCreated)]
         public static async Task ChannelCreateEventHandlerAsync(FreudShard shard, ChannelCreateEventArgs e)
         {
-            DiscordChannel logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
+            var logchn = shard.SharedData.GetLogChannelForGuild(shard.Client, e.Guild);
             if (logchn is null)
                 return;
 
-            DiscordEmbedBuilder emb = FormEmbedBuilder(EventOrigin.Channel, "Channel created", e.Channel.ToString());
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelCreate);
+            var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel created", e.Channel.ToString());
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelCreate);
 
             if (entry is null || !(entry is DiscordAuditLogChannelEntry centry))
             {
@@ -49,7 +52,7 @@ namespace Freud.EventListeners
 
             var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel deleted", e.Channel.ToString());
             emb.AddField("Channel type", e.Channel?.Type.ToString() ?? _unknown, inline: true);
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelDelete);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelDelete);
 
             if (entry is null || !(entry is DiscordAuditLogChannelEntry centry))
             {
@@ -100,7 +103,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Channel, "Channel updated");
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelUpdate);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.ChannelUpdate);
             if (!(entry is null) && entry is DiscordAuditLogChannelEntry centry)
             {
                 emb.WithDescription(centry.Target.ToString());

@@ -57,10 +57,10 @@ namespace Freud.Common.Tasks
         {
             get
             {
-                DateTimeOffset now = DateTimeOffset.Now;
+                var now = DateTimeOffset.Now;
                 if (this.ExecutionTime > now || !this.IsRepeating)
                     return this.ExecutionTime - now;
-                TimeSpan diff = now - this.ExecutionTime;
+                var diff = now - this.ExecutionTime;
 
                 return TimeSpan.FromTicks(this.RepeatingInterval.Ticks - diff.Ticks % this.RepeatingInterval.Ticks);
             }

@@ -5,6 +5,8 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Freud.Common;
 using Freud.Common.Attributes;
+using Freud.Discord.Extensions;
+using Freud.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +24,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.KickOrBan, "User BANNED");
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Ban);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Ban);
 
             if (entry is null || !(entry is DiscordAuditLogBanEntry bentry))
             {
@@ -49,7 +51,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.KickOrBan, "Member unbanned");
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Unban);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.Unban);
 
             if (entry is null || !(entry is DiscordAuditLogBanEntry bentry))
             {
@@ -98,7 +100,7 @@ namespace Freud.EventListeners
             else
                 action = AuditLogActionType.EmojiUpdate;
 
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(action);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(action);
             emb.WithTitle($"Guild emoji action occured: {action.ToString()}");
             if (entry is null || !(entry is DiscordAuditLogEmojiEntry eentry))
             {
@@ -157,7 +159,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Role, "Role created", e.Role.ToString());
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleCreate);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleCreate);
 
             if (!(entry is null) && entry is DiscordAuditLogRoleUpdateEntry rentry)
             {
@@ -198,7 +200,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Role, "Role deleted", e.Role.ToString());
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleDelete);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleDelete);
 
             if (!(entry is null) && entry is DiscordAuditLogRoleUpdateEntry rentry)
             {
@@ -224,7 +226,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Role, "Role updated");
-            DiscordAuditLogEntry entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleUpdate);
+            var entry = await e.Guild.GetLatestAuditLogEntryAsync(AuditLogActionType.RoleUpdate);
             if (!(entry is null) && entry is DiscordAuditLogRoleUpdateEntry rentry)
             {
                 emb.WithDescription(rentry.Target.Id.ToString());
@@ -248,7 +250,8 @@ namespace Freud.EventListeners
                     emb.AddField("Position changed to", rentry.PositionChange.After?.ToString() ?? _unknown, inline: true);
 
                 if (!string.IsNullOrWhiteSpace(rentry.Reason))
-                    emb.AddField("Reason", rentry.CreationTimestamp.ToUtcTimestamp(), rentry.UserResponsible.AvatarUrl);
+                    emb.AddField("Reason", rentry.Reason);
+                emb.WithFooter(rentry.CreationTimestamp.ToUtcTimestamp(), rentry.UserResponsible.AvatarUrl);
             } else
             {
                 emb.AddField("Error", "Failed to read audit log information. Please check my permissions");
@@ -266,7 +269,7 @@ namespace Freud.EventListeners
                 return;
 
             var emb = FormEmbedBuilder(EventOrigin.Role, "Guild settings updated");
-            DiscordAuditLogEntry entry = await e.GuildAfter.GetLatestAuditLogEntryAsync(AuditLogActionType.GuildUpdate);
+            var entry = await e.GuildAfter.GetLatestAuditLogEntryAsync(AuditLogActionType.GuildUpdate);
             if (!(entry is null) && entry is DiscordAuditLogGuildEntry gentry)
             {
                 emb.AddField("User responsible", gentry.UserResponsible.Mention, inline: true);

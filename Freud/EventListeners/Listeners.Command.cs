@@ -10,6 +10,7 @@ using Freud.Common;
 using Freud.Common.Attributes;
 using Freud.Common.Configuration;
 using Freud.Exceptions;
+using Freud.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -76,9 +77,9 @@ namespace Freud.EventListeners
 
                     sb.Clear();
                     sb.AppendLine(Formatter.Bold($"Command {Formatter.InlineCode(cne.CommandName)} not found. Did you mean..."));
-                    System.Collections.Generic.IEnumerable<(string Name, Command Command)> ordered = FreudShard.Commands
+                    var ordered = FreudShard.Commands
                         .OrderBy(tup => cne.CommandName.LevenshteinDistance(tup.Name)).Take(3);
-                    foreach ((string alias, Command cmd) in ordered)
+                    foreach ((string alias, var cmd) in ordered)
                         emb.AddField($"{alias} ({cmd.QualifiedName})", cmd.Description);
                     break;
 
@@ -124,7 +125,7 @@ namespace Freud.EventListeners
 
                         default:
                             sb.AppendLine($"Command {Formatter.Bold(e.Command.QualifiedName)} cannot be executed because:").AppendLine();
-                            foreach (CheckBaseAttribute attr in cfex.FailedChecks)
+                            foreach (var attr in cfex.FailedChecks)
                             {
                                 switch (attr)
                                 {

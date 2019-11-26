@@ -8,6 +8,7 @@ using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Enums;
 using DSharpPlus.Net.WebSocket;
 using DSharpPlus.VoiceNext;
+using Freud.Common;
 using Freud.Common.Converters;
 using Freud.Common.Tasks;
 using Freud.Database.Db;
