@@ -8,9 +8,12 @@ using Freud.Common.Attributes;
 using Freud.Common.Configuration;
 using Freud.Common.Tasks;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions;
 using Freud.Extensions.Discord;
+using Humanizer;
+using Humanizer.Localisation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
@@ -26,7 +29,7 @@ namespace Freud.Modules.Reminders
     [Group("remind"), Module(ModuleType.Reminders), NotBlocked]
     [Description("Manage reminders.")]
     [Aliases("reminders", "reminder", "todo", "todolist", "note")]
-    [UsageExamplesAttributes("1h Finish homework assignment")]
+    [UsageExampleArgs("1h Finish homework assignment")]
     [Cooldown(3, 5, CooldownBucketType.Channel)]
     public partial class RemindModule : FreudModule
     {
@@ -83,7 +86,7 @@ namespace Freud.Modules.Reminders
 
             bool privileged;
             using (var dc = this.Database.CreateContext())
-                privileged = dc.PrivilegedUsers.Any(u => u.Userid == ctx.User.Id);
+                privileged = dc.PrivilegedUsers.Any(u => u.UserId == ctx.User.Id);
 
             if (ctx.User.Id != ctx.Client.CurrentApplication?.Owner.Id && !privileged)
             {
@@ -116,11 +119,11 @@ namespace Freud.Modules.Reminders
             if (!(channel is null) && channel.Type != ChannelType.Text)
                 throw new InvalidCommandUsageException("You must specify a text channel for the deletion");
 
-            if (!(await ctx.WaitForBoolReplyAsync("Are you sure you want to remove all of your reminders" + (channel is null ? "?" : $"in {channel.Mention}?")))
+            if (!(await ctx.WaitForBoolReplyAsync("Are you sure you want to remove all of your reminders" + (channel is null ? "?" : $"in {channel.Mention}?"))))
                 return;
 
             List<DatabaseReminder> reminders;
-            using (DatabaseContext dc = this.Database.CreateContext())
+            using (var dc = this.Database.CreateContext())
             {
                 if (channel is null)
                     reminders = await dc.Reminders.Where(r => r.UserId == ctx.User.Id).ToListAsync();
@@ -140,7 +143,7 @@ namespace Freud.Modules.Reminders
         [Command("delete")]
         [Description("Unschedules reminders.")]
         [Aliases("-", "remove", "rm", "del", "-=", ">", ">>", "unschedule")]
-        [UsageExamplesAttributes("1")]
+        [UsageExampleArgs("1")]
         public async Task DeleteAsync(CommandContext ctx,
                                     [Description("Reminder ID.")] params int[] ids)
         {
@@ -246,7 +249,7 @@ namespace Freud.Modules.Reminders
         [Command("repeat"), Priority(2)]
         [Description("Schedule a new repeating reminder. You can also specify a channel where to send the reminder.")]
         [Aliases("newrep", "+r", "ar", "+=r", "<r", "<<r")]
-        [UsageExamplesAttributes("1h Do 50 pushups!")]
+        [UsageExampleArgs("1h Do 50 pushups!")]
         public Task RepeatAsync(CommandContext ctx,
                                [Description("Repeat timespan.")] TimeSpan timespan,
                                [Description("Channel to send message to.")] DiscordChannel channel,

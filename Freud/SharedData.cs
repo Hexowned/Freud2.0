@@ -157,11 +157,11 @@ namespace Freud
         }
 
         public bool PendingResponseExists(ulong cid, ulong uid)
-            => this.PendingResponses.TryGetValue(cid, out ConcurrentHashSet<ulong> pending) && pending.Contains(uid);
+            => this.PendingResponses.TryGetValue(cid, out var pending) && pending.Contains(uid);
 
         public bool TryRemovePendingResponse(ulong cid, ulong uid)
         {
-            if (!this.PendingResponses.TryGetValue(cid, out ConcurrentHashSet<ulong> pending))
+            if (!this.PendingResponses.TryGetValue(cid, out var pending))
                 return true;
 
             bool success = pending.TryRemove(uid);

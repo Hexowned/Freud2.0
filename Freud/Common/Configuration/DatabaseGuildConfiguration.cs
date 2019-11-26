@@ -1,5 +1,6 @@
 ﻿#region USING_DIRECTIVES
 
+using Freud.Database.Db.Entities;
 using Freud.Modules.Administration.Common;
 using Freud.Modules.Administration.Services;
 using System.Collections.Generic;
@@ -297,5 +298,4 @@ namespace Freud.Common.Configuration
         public virtual ICollection<DatabaseRssSubscription> Subscriptions { get; set; }
         public virtual ICollection<DatabaseTextReaction> TextReactions { get; set; }
     }
-}
 }

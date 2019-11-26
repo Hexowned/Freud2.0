@@ -8,6 +8,11 @@ using Freud.Common.Configuration;
 using Freud.Common.Tasks;
 using Freud.Database.Db;
 using Freud.Database.Db.Entities;
+using Freud.Extensions;
+using Freud.Modules.Administration.Common;
+using Freud.Modules.Reactions;
+using Freud.Modules.Search.Services;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -29,7 +34,7 @@ namespace Freud
     {
         public static readonly string ApplicationName = "Freud";
         public static readonly string ApplicationVersion = "v1";
-        public static IReadOnlyList<FreudShard> ActiveShards => ActiveShards.AsReadOnly();
+        public static IReadOnlyList<FreudShard> ActiveShards => Shards.AsReadOnly();
 
         private static BotConfiguration BotConfiguration { get; set; }
         private static DatabaseContextBuilder GlobalDatabaseContextBuilder { get; set; }
@@ -56,7 +61,7 @@ namespace Freud
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
                 await LoadBotConfigurationAsync();
-                await InitializedDatabaseAsync();
+                await InitializeDatabaseAsync();
                 LoadSharedDataFromDatabase();
 
                 await CreateAndBootShardsAsync();
@@ -197,7 +202,7 @@ namespace Freud
                 filters = new ConcurrentDictionary<ulong, ConcurrentHashSet<Filter>>(
                     dc.Filters.GroupBy(f => f.GuildId)
                     .ToDictionary(g => g.Key, g =>
-                    new ConcurrentHashSet<Filter>(g.Select(f => new EventTypeFilter(f.Id, f.trigger)))));
+                    new ConcurrentHashSet<Filter>(g.Select(f => new EventTypeFilter(f.Id, f.Trigger)))));
 
                 msgcount = new ConcurrentDictionary<ulong, int>(
                     dc.MessageCount.GroupBy(ui => ui.UserId)
@@ -257,7 +262,7 @@ namespace Freud
 
             using (var dc = GlobalDatabaseContextBuilder.CreateContext())
             {
-                await RegisterSavedTaskAsync(dc.SavedTask.ToDictionary<DatabaseSavedTask, int, SavedTaskInfo>(
+                await RegisterSavedTasksAsync(dc.SavedTasks.ToDictionary<DatabaseSavedTask, int, SavedTaskInfo>(
                     t => t.Id, t =>
                     {
                         switch (t.Type)
@@ -272,7 +277,7 @@ namespace Freud
                                 return null;
                         }
                     }));
-                await RegisterReminderAsync(dc.Reminds.ToDictionary(
+                await RegisterReminderAsync(dc.Reminders.ToDictionary(
                     t => t.Id, t =>
                     new SendMessageTaskInfo(t.ChannelId, t.UserId, t.Message, t.ExecutionTime, t.IsRepeating, t.RepeatInterval)));
             }
@@ -331,7 +336,7 @@ namespace Freud
             FeedCheckTimer.Dispose();
             MiscActionsTimer.Dispose();
 
-            foreach (FreudShard shard in Shards)
+            foreach (var shard in Shards)
                 await shard.DisposeAsync();
             SharedData.Dispose();
 
@@ -354,7 +359,7 @@ namespace Freud
                 using (var dc = GlobalDatabaseContextBuilder.CreateContext())
                     status = dc.BotStatuses.Shuffle().FirstOrDefault();
 
-                var activity = new DiscordActivity(status?.Status ?? "For commands\n@Freud help", status?.Activity ?? ActivityType.Listening);
+                var activity = new DiscordActivity(status?.Status ?? "For commands\n@Freud help", status?.Activity ?? ActivityType.ListeningTo);
 
                 SharedData.AsyncExecutor.Execute(client.UpdateStatusAsync(activity));
             } catch (Exception e)
@@ -371,7 +376,7 @@ namespace Freud
                 {
                     foreach ((ulong uid, int count) in SharedData.MessageCount)
                     {
-                        DatabaseMessageCount msgcount = dc.MessageCount.Find((long)uid);
+                        var msgcount = dc.MessageCount.Find((long)uid);
                         if (msgcount is null)
                         {
                             dc.MessageCount.Add(new DatabaseMessageCount
