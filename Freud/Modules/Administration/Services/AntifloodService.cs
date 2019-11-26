@@ -20,7 +20,7 @@ namespace Freud.Modules.Administration.Services
             : base(shard)
         {
             this.guildFloodUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<DiscordMember>>();
-            this.reason = _"gf: Flooding";
+            this.reason = "bot: Flooding";
         }
 
         public override bool TryAddGuildToWatch(ulong gid)

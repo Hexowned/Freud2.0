@@ -97,7 +97,7 @@ namespace Freud.EventListeners
             if (!e.Channel.PermissionsFor(e.Guild.CurrentMember).HasFlag(Permissions.ManageMessages))
                 return;
 
-            await e.Message.DeleteAsync("_gf: Filter hit");
+            await e.Message.DeleteAsync("bot: Filter hit");
             await e.Channel.SendMessageAsync($"{e.Author.Mention} said: {FormatterExtensions.Spoiler(Formatter.BlockCode(FormatterExtensions.StripMarkdown(e.Message.Content)))}");
         }
 
@@ -218,7 +218,7 @@ namespace Freud.EventListeners
             {
                 try
                 {
-                    await e.Message.DeleteAsync("_gf: Filter hit after update");
+                    await e.Message.DeleteAsync("bot: Filter hit after update");
                     await e.Channel.SendMessageAsync($"{e.Author.Mention} said: {FormatterExtensions.Spoiler(Formatter.BlockCode(FormatterExtensions.StripMarkdown(e.Message.Content)))}");
                 } catch
                 {

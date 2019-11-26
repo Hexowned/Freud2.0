@@ -87,7 +87,7 @@ namespace Freud.EventListeners
                         await e.Member.ModifyAsync(m =>
                         {
                             m.Nickname = "Temporary name";
-                            m.AuditLogReason = "_gf: Forbidden name match";
+                            m.AuditLogReason = "bot: Forbidden name match";
                         });
                         emb.AddField("Additional actions taken", "Removed name due to a match with a foribidden name");
                         if (!e.Member.IsBot)
@@ -209,7 +209,7 @@ namespace Freud.EventListeners
                         await e.Member.ModifyAsync(m =>
                         {
                             m.Nickname = e.NicknameBefore;
-                            m.AuditLogReason = "_f: Forbidden name match";
+                            m.AuditLogReason = "bot: Forbidden name match";
                         });
                         emb.AddField("Additional actions taken", "Removed name due to a match with a forbidden name");
                         if (!e.Member.IsBot)

@@ -285,7 +285,6 @@ namespace Freud.Common.Tasks
             {
                 try
                 {
-                    a
                     this.Execute(this.UnscheduleAsync());
                 } catch (Exception e)
                 {

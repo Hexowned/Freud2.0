@@ -21,7 +21,7 @@ namespace Freud.Modules.Administration.Services
             : base(shard)
         {
             this.newGuildMembers = new ConcurrentDictionary<ulong, ConcurrentHashSet<DiscordMember>>();
-            this.reason = "_f: Instant leave";
+            this.reason = "bot: Instant leave";
         }
 
         public override bool TryAddGuildToWatch(ulong gid)

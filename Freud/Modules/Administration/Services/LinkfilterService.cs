@@ -16,7 +16,7 @@ namespace Freud.Modules.Administration.Services
         public LinkfilterService(FreudShard shard)
             : base(shard)
         {
-            this.reason = "_f: Linkfilter";
+            this.reason = "bot: Linkfilter";
         }
 
         public override bool TryAddGuildToWatch(ulong gid)
@@ -101,7 +101,7 @@ namespace Freud.Modules.Administration.Services
         {
             try
             {
-                await e.Message.DeleteAsync($"_gf: {cause} linkfilter");
+                await e.Message.DeleteAsync($"bot: {cause} linkfilter");
                 await this.LogLinkfilterMatchAsync(e, $"{cause} matched");
                 await (e.Author as DiscordMember).SendMessageAsync(
                     $"Your message:\n{Formatter.BlockCode(e.Message.Content)}was automatically removed from " +

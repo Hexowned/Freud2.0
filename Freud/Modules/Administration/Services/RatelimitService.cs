@@ -40,7 +40,7 @@ namespace Freud.Modules.Administration.Services
             this.guildExempts = new ConcurrentDictionary<ulong, ConcurrentHashSet<ExemptedEntity>>();
             this.guildRatelimitInfo = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, UserRatelimitInfo>>();
             this.refreshTimer = new Timer(RefreshCallback, this, TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(20));
-            this.reason = "_f: Ratelimit hit";
+            this.reason = "bot: Ratelimit hit";
         }
 
         public override bool TryAddGuildToWatch(ulong gid)

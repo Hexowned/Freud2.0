@@ -40,7 +40,7 @@ namespace Freud.Modules.Administration.Services
             this.guildExempts = new ConcurrentDictionary<ulong, ConcurrentHashSet<ExemptedEntity>>();
             this.guildSpamInfo = new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, UserSpamInfo>>();
             this.refreshTimer = new Timer(RefreshCallback, this, TimeSpan.FromMinutes(3), TimeSpan.FromMinutes(3));
-            this.reason = "_f: Antispam";
+            this.reason = "bot: Antispam";
         }
 
         public override bool TryAddGuildToWatch(ulong gid)
