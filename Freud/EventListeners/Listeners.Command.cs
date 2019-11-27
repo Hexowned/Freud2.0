@@ -69,7 +69,7 @@ namespace Freud.EventListeners
             switch (ex)
             {
                 case CommandNotFoundException cne:
-                    if (!shard.SharedData.GetGuildConfiguration(e.Context.Guild.Id).SuggestionEnabled)
+                    if (!shard.SharedData.GetGuildConfiguration(e.Context.Guild.Id).SuggestionsEnabled)
                     {
                         await e.Context.Message.CreateReactionAsync(StaticDiscordEmoji.Question);
                         return;

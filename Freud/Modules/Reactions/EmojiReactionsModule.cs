@@ -7,6 +7,7 @@ using DSharpPlus.Entities;
 using Freud.Common.Attributes;
 using Freud.Common.Collections;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions;
 using Freud.Extensions.Discord;
@@ -232,10 +233,10 @@ namespace Freud.Modules.Reactions
             {
                 var toUpdate = dc.EmojiReactions.Include(t => t.DbTriggers).AsEnumerable().Where(tr => tr.GuildId == ctx.Guild.Id && erIds.Contains(tr.Id)).ToList();
 
-                foreach (DatabaseEmojiReaction er in toUpdate)
+                foreach (var er in toUpdate)
                 {
                     foreach (string trigger in triggers)
-                        er.DbTriggers.Remove(new DatabaseEmojiReactionTrigger { ReactionId = er.Id, trigger = trigger });
+                        er.DbTriggers.Remove(new DatabaseEmojiReactionTrigger { ReactionId = er.Id, Trigger = trigger });
                     await dc.SaveChangesAsync();
 
                     if (er.DbTriggers.Any())
@@ -403,7 +404,7 @@ namespace Freud.Modules.Reactions
                         GuildId = ctx.Guild.Id,
                         Reaction = emoji.GetDiscordName()
                     };
-                    dc.EmojiReaction.Add(dber);
+                    dc.EmojiReactions.Add(dber);
                     await dc.SaveChangesAsync();
                 }
 

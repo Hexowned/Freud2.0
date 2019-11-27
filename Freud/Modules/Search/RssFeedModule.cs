@@ -9,6 +9,7 @@ using Freud.Database.Db;
 using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions.Discord;
+using Freud.Modules.Search.Extensions;
 using Freud.Modules.Search.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +42,7 @@ namespace Freud.Modules.Search
             if (!RssService.IsValidFeedUrl(url.AbsoluteUri))
                 throw new InvalidCommandUsageException("No results found for given URL (maybe forbidden?).");
 
-            IReadOnlyList<SyndicationItem> res = RssService.GetFeedResults(url.AbsoluteUri);
+            var res = RssService.GetFeedResults(url.AbsoluteUri);
             if (res is null)
                 throw new CommandFailedException("Error getting feed from given URL.");
 
@@ -71,7 +72,7 @@ namespace Freud.Modules.Search
                                                [Description("URL.")] Uri url,
                                                [RemainingText, Description("Friendly name.")] string name = null)
             {
-                if (!RssService.IsValidFeedURL(url.AbsoluteUri))
+                if (!RssService.IsValidFeedUrl(url.AbsoluteUri))
                     throw new InvalidCommandUsageException("Given URL isn't a valid RSS feed URL.");
 
                 await this.Database.SubscribeAsync(ctx.Guild.Id, ctx.Channel.Id, url.AbsoluteUri, name);
@@ -119,7 +120,7 @@ namespace Freud.Modules.Search
             public async Task RedditAsync(CommandContext ctx,
                                          [Description("Subreddit.")] string sub)
             {
-                string url = RedditService.GetFeedURLForSubreddit(sub, RedditCategory.New, out string rsub);
+                string url = RedditService.GetFeedUrlForSubreddit(sub, RedditCategory.New, out string rsub);
                 if (url is null)
                     throw new CommandFailedException("That subreddit doesn't exist.");
 
@@ -233,7 +234,7 @@ namespace Freud.Modules.Search
             public async Task RedditAsync(CommandContext ctx,
                                          [Description("Subreddit.")] string sub)
             {
-                if (RedditService.GetFeedURLForSubreddit(sub, RedditCategory.New, out string rsub) is null)
+                if (RedditService.GetFeedUrlForSubreddit(sub, RedditCategory.New, out string rsub) is null)
                     throw new CommandFailedException("That subreddit doesn't exist.");
 
                 using (var dc = this.Database.CreateContext())

@@ -7,6 +7,7 @@ using DSharpPlus.Entities;
 using Freud.Common.Attributes;
 using Freud.Common.Collections;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions;
 using Freud.Extensions.Discord;
@@ -156,7 +157,7 @@ namespace Freud.Modules.Reactions
                     continue;
                 }
 
-                IEnumerable<TextReaction> found = treactions.Where(tr => tr.ContainsTriggerPattern(trigger));
+                var found = treactions.Where(tr => tr.ContainsTriggerPattern(trigger));
                 if (!found.Any())
                 {
                     sb.AppendLine($"Warning: Trigger {Formatter.Bold(trigger)} does not exist in this guild.");
@@ -280,7 +281,7 @@ namespace Freud.Modules.Reactions
             if (!this.Shared.TextReactions.TryGetValue(ctx.Guild.Id, out var treactions) || !treactions.Any())
                 throw new CommandFailedException("This guild has no text reactions registered.");
 
-            TextReaction tr = treactions.SingleOrDefault(t => t.IsMatch(trigger));
+            var tr = treactions.SingleOrDefault(t => t.IsMatch(trigger));
             if (tr is null)
                 throw new CommandFailedException("None of the reactions respond to such trigger.");
 
@@ -345,7 +346,7 @@ namespace Freud.Modules.Reactions
             int id;
             using (var dc = this.Database.CreateContext())
             {
-                DatabaseTextReaction dbtr = dc.TextReactions.FirstOrDefault(tr => tr.GuildId == ctx.Guild.Id && tr.Response == response);
+                var dbtr = dc.TextReactions.FirstOrDefault(tr => tr.GuildId == ctx.Guild.Id && tr.Response == response);
                 if (dbtr is null)
                 {
                     dbtr = new DatabaseTextReaction

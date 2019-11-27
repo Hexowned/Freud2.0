@@ -7,6 +7,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Freud.Common.Attributes;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions.Discord;
 using Microsoft.EntityFrameworkCore;
@@ -170,11 +171,11 @@ namespace Freud.Modules.Owner
                     blocked = await dc.BlockedChannels.ToListAsync();
 
                 var lines = new List<string>();
-                foreach (DatabaseBlockedChannel chn in blocked)
+                foreach (var chn in blocked)
                 {
                     try
                     {
-                        DiscordChannel channel = await ctx.Client.GetChannelAsync(chn.ChannelId);
+                        var channel = await ctx.Client.GetChannelAsync(chn.ChannelId);
                         lines.Add($"{channel.ToString()} ({Formatter.Italic(chn.Reason ?? "No reason provided.")}");
                     } catch (NotFoundException)
                     {

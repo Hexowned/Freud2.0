@@ -9,24 +9,24 @@
 
     public static class EntityTypeExtensions
     {
-        public static char ToFlag(this ExemptedEntity entity)
+        public static char ToFlag(this ExemptedEntityType entity)
         {
             switch (entity)
             {
-                case ExemptedEntity.Channel: return 'c';
-                case ExemptedEntity.Member: return 'm';
-                case ExemptedEntity.Role: return 'r';
+                case ExemptedEntityType.Channel: return 'c';
+                case ExemptedEntityType.Member: return 'm';
+                case ExemptedEntityType.Role: return 'r';
                 default: return '?';
             }
         }
 
-        public static string ToUserFriendlyString(this ExemptedEntity entity)
+        public static string ToUserFriendlyString(this ExemptedEntityType entity)
         {
             switch (entity)
             {
-                case ExemptedEntity.Channel: return "Channel";
-                case ExemptedEntity.Member: return "User";
-                case ExemptedEntity.Role: return "Role";
+                case ExemptedEntityType.Channel: return "Channel";
+                case ExemptedEntityType.Member: return "User";
+                case ExemptedEntityType.Role: return "Role";
                 default: return "Unknown";
             }
         }
@@ -36,6 +36,6 @@
     {
         public ulong GuildId { get; set; }
         public ulong Id { get; set; }
-        public ExemptedEntity Type { get; set; }
+        public ExemptedEntityType Type { get; set; }
     }
 }

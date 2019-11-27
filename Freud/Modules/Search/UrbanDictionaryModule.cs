@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using Freud.Common.Attributes;
 using Freud.Database.Db;
 using Freud.Extensions.Discord;
+using Freud.Modules.Search.Extensions;
 using Freud.Modules.Search.Services;
 using System.Threading.Tasks;
 

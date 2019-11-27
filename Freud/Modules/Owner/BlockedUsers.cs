@@ -7,6 +7,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Freud.Common.Attributes;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
 using Freud.Extensions.Discord;
 using Microsoft.EntityFrameworkCore;
@@ -170,11 +171,11 @@ namespace Freud.Modules.Owner
                     blocked = await dc.BlockedUsers.ToListAsync();
 
                 var lines = new List<string>();
-                foreach (DatabaseBlockedUser usr in blocked)
+                foreach (var usr in blocked)
                 {
                     try
                     {
-                        DiscordUser user = await ctx.Client.GetUserAsync(usr.UserId);
+                        var user = await ctx.Client.GetUserAsync(usr.UserId);
                         lines.Add($"{user.ToString()} ({Formatter.Italic(usr.Reason ?? "No reason provided.")})");
                     } catch (NotFoundException)
                     {

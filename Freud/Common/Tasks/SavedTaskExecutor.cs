@@ -5,7 +5,10 @@ using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using Freud.Common.Configuration;
 using Freud.Database.Db;
+using Freud.Database.Db.Entities;
 using Freud.Exceptions;
+using Freud.Extensions;
+using Freud.Extensions.Discord;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -29,7 +32,7 @@ namespace Freud.Common.Tasks
             SavedTaskExecutor texec = null;
             try
             {
-                using (DatabaseContext dc = dcb.CreateContext())
+                using (var dc = dcb.CreateContext())
                 {
                     if (task is SendMessageTaskInfo)
                     {
@@ -40,7 +43,7 @@ namespace Freud.Common.Tasks
                     } else
                     {
                         var dbtask = DatabaseSavedTask.FromSavedTaskInfo(task);
-                        dc.SavedTask.Add(dbtask);
+                        dc.SavedTasks.Add(dbtask);
                         await dc.SaveChangesAsync();
                         texec = new SavedTaskExecutor(dbtask.Id, client, task, shared, dcb);
                     }

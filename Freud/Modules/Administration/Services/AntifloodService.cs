@@ -29,7 +29,7 @@ namespace Freud.Modules.Administration.Services
         public override bool TryRemoveGuildFromWatch(ulong gid)
             => this.guildFloodUsers.TryRemove(gid, out _);
 
-        public async Task HandleMemberJoinAsync(GuildMemberAddEventArgs e, AntifloodService settings)
+        public async Task HandleMemberJoinAsync(GuildMemberAddEventArgs e, AntifloodSettings settings)
         {
             if (!this.guildFloodUsers.ContainsKey(e.Guild.Id) && !this.TryAddGuildToWatch(e.Guild.Id))
                 throw new ConcurrentOperationException("Failed to add guild to antiflood watch list!");
@@ -39,7 +39,7 @@ namespace Freud.Modules.Administration.Services
 
             if (this.guildFloodUsers[e.Guild.Id].Count >= settings.Sensitivity)
             {
-                foreach (DiscordMember m in this.guildFloodUsers[e.Guild.Id])
+                foreach (var m in this.guildFloodUsers[e.Guild.Id])
                 {
                     await this.PunishMemberAsync(e.Guild, m, settings.Action);
                     await Task.Delay(TimeSpan.FromMilliseconds(500));

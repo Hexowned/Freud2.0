@@ -115,7 +115,7 @@ namespace Freud.Modules.Administration.Configuration
 
                     var logchn = this.Shared.GetLogChannelForGuild(ctx.Client, ctx.Guild);
                     if (!(logchn is null))
-                        await this.PrintGuildConfigAsync(ctx.Guild, logchn, changed: true);
+                        await this.PrintGuildConfigurationAsync(ctx.Guild, logchn, changed: true);
 
                     await channel.EmbedAsync($"All done! Have a nice day!", StaticDiscordEmoji.CheckMarkSuccess);
                 }
@@ -364,7 +364,7 @@ namespace Freud.Modules.Administration.Configuration
 
             #region HELPER_FUNCTIONS
 
-            private async Task PrintGuildConfigAsync(DiscordGuild guild, DiscordChannel channel, bool changed = false)
+            private async Task PrintGuildConfigurationAsync(DiscordGuild guild, DiscordChannel channel, bool changed = false)
             {
                 var emb = new DiscordEmbedBuilder
                 {

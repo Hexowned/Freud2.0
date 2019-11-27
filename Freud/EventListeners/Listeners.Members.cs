@@ -12,7 +12,6 @@ using Freud.Extensions;
 using Freud.Extensions.Discord;
 using Freud.Modules.Administration.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,7 +41,7 @@ namespace Freud.EventListeners
             {
                 using (var dc = shard.Database.CreateContext())
                 {
-                    IQueryable<ulong> rids = dc.AutoAssinableRoles.Where(dbr => dbr.RoleId);
+                    IQueryable<ulong> rids = dc.AutoAssignableRoles.Where(dbr => dbr.RoleId);
                     foreach (ulong rid in rids.ToList())
                     {
                         try
@@ -51,7 +50,7 @@ namespace Freud.EventListeners
                             if (!(role is null))
                                 await e.Member.GrantRoleAsync(role);
                             else
-                                dc.AutoAssignableRoles.Remove(dc.AutoAssinableRoles.Single(r => r.GuildId == e.Guild.Id && r.RoleId == rid));
+                                dc.AutoAssignableRoles.Remove(dc.AutoAssignableRoles.Single(r => r.GuildId == e.Guild.Id && r.RoleId == rid));
                         } catch (Exception exc)
                         {
                             shard.Log(LogLevel.Debug,

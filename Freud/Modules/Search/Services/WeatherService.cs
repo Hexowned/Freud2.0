@@ -2,6 +2,7 @@
 
 using DSharpPlus.Entities;
 using Freud.Modules.Search.Common;
+using Freud.Modules.Search.Extensions;
 using Freud.Services;
 using Newtonsoft.Json;
 using System;
