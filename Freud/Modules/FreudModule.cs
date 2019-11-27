@@ -23,8 +23,8 @@ namespace Freud.Modules
 
         public DiscordColor ModuleColor
         {
-            get { return this.ModuleColor ?? DiscordColor.Green; }
-            set { this.ModuleColor = value; }
+            get { return this.moduleColor ?? DiscordColor.Green; }
+            set { this.moduleColor = value; }
         }
 
         private DiscordColor? moduleColor;

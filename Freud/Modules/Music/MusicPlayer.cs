@@ -131,6 +131,7 @@ namespace Freud.Modules.Music
             } catch (Exception e)
             {
                 // handle exc
+                Console.Write(e); // log whatever exception and handle it here
             } finally
             {
                 lock (this.operationLock)

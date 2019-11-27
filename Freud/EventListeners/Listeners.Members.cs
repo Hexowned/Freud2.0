@@ -35,13 +35,13 @@ namespace Freud.EventListeners
                 if (string.IsNullOrWhiteSpace(gcfg.WelcomeMessage))
                     await whcn.EmbedAsync($"Welcome to {Formatter.Bold(e.Guild.Name)}, {e.Member.Mention}!", StaticDiscordEmoji.Wave);
                 else
-                    await whcn.EmbedAsync($"Welcome to {Formatter.Bold(e.Guild.Name)}, {e.Member.Mention}!", StaticDiscordEmoji.Wave);
+                    await whcn.EmbedAsync(gcfg.WelcomeMessage.Replace("%user%", e.Member.Mention), StaticDiscordEmoji.Wave);
             }
             try
             {
                 using (var dc = shard.Database.CreateContext())
                 {
-                    IQueryable<ulong> rids = dc.AutoAssignableRoles.Where(dbr => dbr.RoleId);
+                    var rids = dc.AutoAssignableRoles.Where(dbr => dbr.GuildId == e.Guild.Id).Select(dbr => dbr.RoleId);
                     foreach (ulong rid in rids.ToList())
                     {
                         try

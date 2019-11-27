@@ -424,7 +424,7 @@ namespace Freud
                     todayBirthdays = dc.Birthdays.Where(b => b.Date.Month == DateTime.Now.Month && b.Date.Day == DateTime.Now.Day && b.LastUpdateYear < DateTime.Now.Year).ToList();
                 }
 
-                foreach (DatabaseBirthday birthday in todayBirthdays)
+                foreach (var birthday in todayBirthdays)
                 {
                     var channel = SharedData.AsyncExecutor.Execute(client.GetChannelAsync(birthday.ChannelId));
                     var user = SharedData.AsyncExecutor.Execute(client.GetUserAsync(birthday.UserId));
