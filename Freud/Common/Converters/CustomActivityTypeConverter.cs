@@ -14,7 +14,7 @@ namespace Freud.Common.Converters
     {
         public static ActivityType? TryConvert(string value)
         {
-            ActivityType result = ActivityType.Playing;
+            var result = ActivityType.Playing;
             bool parses = true;
             switch (value.ToLowerInvariant())
             {

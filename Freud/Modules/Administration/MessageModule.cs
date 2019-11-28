@@ -29,8 +29,8 @@ namespace Freud.Modules.Administration
     [Cooldown(3, 5, CooldownBucketType.Channel)]
     public partial class MessageModule : FreudModule
     {
-        public MessageModule(SharedData shared, DatabaseContextBuilder db)
-            : base(shared, db)
+        public MessageModule(SharedData shared, DatabaseContextBuilder dcb)
+            : base(shared, dcb)
         {
             this.ModuleColor = DiscordColor.Azure;
         }
@@ -244,8 +244,8 @@ namespace Freud.Modules.Administration
         [RequirePermissions(Permissions.ManageMessages), RequireUserPermissions(Permissions.Administrator)]
         public class MessageDeleteModule : FreudModule
         {
-            public MessageDeleteModule(SharedData shared, DatabaseContextBuilder db)
-                : base(shared, db)
+            public MessageDeleteModule(SharedData shared, DatabaseContextBuilder dcb)
+                : base(shared, dcb)
             {
                 this.ModuleColor = DiscordColor.Azure;
             }

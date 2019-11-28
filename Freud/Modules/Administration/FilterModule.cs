@@ -12,7 +12,6 @@ using Freud.Exceptions;
 using Freud.Extensions;
 using Freud.Extensions.Discord;
 using Freud.Modules.Administration.Common;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;

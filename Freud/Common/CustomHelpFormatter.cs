@@ -133,4 +133,8 @@ namespace Freud.Common
             return this;
         }
     }
+
+    public struct Internal
+    {
+    }
 }

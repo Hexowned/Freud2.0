@@ -14,7 +14,7 @@ namespace Freud.Common.Converters
     {
         public static PunishmentActionType? TryConvert(string value)
         {
-            PunishmentActionType result = PunishmentActionType.Kick;
+            var result = PunishmentActionType.Kick;
             bool parses = true;
             switch (value.ToLowerInvariant())
             {

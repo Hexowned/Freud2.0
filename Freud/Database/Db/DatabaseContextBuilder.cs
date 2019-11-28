@@ -21,7 +21,7 @@ namespace Freud.Database.Db
 
         public DatabaseContextBuilder(DatabaseConfiguration cfg)
         {
-            cfg = cfg ?? DatabaseConfiguration.Default;
+            cfg = cfg ?? Default;
             this.Provider = cfg.Provider;
 
             switch (this.Provider)
