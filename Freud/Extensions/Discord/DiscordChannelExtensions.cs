@@ -59,7 +59,7 @@ namespace Freud.Extensions.Discord
                 IReadOnlyList<DiscordMessage> requested;
 
                 if (lastId is null)
-                    requested = await channel.GetMessageAsync(step);
+                    requested = await channel.GetMessagesAsync(step);
                 else
                     requested = await channel.GetMessagesBeforeAsync(messages.FirstOrDefault().Id, step - messages.Count);
 

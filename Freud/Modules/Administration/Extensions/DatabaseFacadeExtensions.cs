@@ -1,6 +1,7 @@
 ﻿#region USING_DIRECTIVES
 
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 
 using System.Threading;
