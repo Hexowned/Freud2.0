@@ -71,7 +71,7 @@ namespace Freud.EventListeners
                 $"{StaticDiscordEmoji.SmallBlueDiamond} The default prefix for my command is {Formatter.Bold(shard.SharedData.BotConfiguration.DefaultPrefix)}, but it can be changed using {Formatter.Bold("prefix")} command.\n" +
                 $"{StaticDiscordEmoji.SmallBlueDiamond} I advise you to run the configuration wizard for this guild in order to quickly configure functions like logging and notifications. The wizard can be invoked using {Formatter.Bold("guild configuration setup")} command.\n" +
                 $"{StaticDiscordEmoji.SmallBlueDiamond} You can use the {Formatter.Bold("help")} command as a guide, though it is recommended to read the command list provided in the source \n" +
-                $"{StaticDiscordEmoji.SmallBlueDiamond} If you have any questions or issues, use the {Formatter.Bold("report")} command in order to send a message to the bot owner ({e.Client.CurrentApplication.Owners.Username}#{e.Client.CurrentApplication.Owners.Discriminator})." + StaticDiscordEmoji.Wave
+                $"{StaticDiscordEmoji.SmallBlueDiamond} If you have any questions or issues, use the {Formatter.Bold("report")} command in order to send a message to the bot owner ({e.Client.CurrentApplication.Team}#{e.Client.CurrentApplication.Description})." + StaticDiscordEmoji.Wave
                 );
         }
 

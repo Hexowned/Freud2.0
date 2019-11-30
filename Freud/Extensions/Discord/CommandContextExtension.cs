@@ -5,6 +5,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using Freud.Common.Configuration;
 using Freud.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;

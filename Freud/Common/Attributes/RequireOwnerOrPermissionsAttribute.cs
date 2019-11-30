@@ -22,7 +22,7 @@ namespace Freud.Common.Attributes
 
         public override Task<bool> ExecuteCheckAsync(CommandContext ctx, bool help)
         {
-            if (ctx.User.Id == ctx.Client.CurrentApplication?.Owners.Id)
+            if (ctx.User.Id == ctx.Client.CurrentApplication?.Team.Id)
                 return Task.FromResult(true);
 
             if (ctx.User.Id == ctx.Client.CurrentUser.Id)

@@ -88,7 +88,7 @@ namespace Freud.Modules.Reminders
             using (var dc = this.Database.CreateContext())
                 privileged = dc.PrivilegedUsers.Any(u => u.UserId == ctx.User.Id);
 
-            if (ctx.User.Id != ctx.Client.CurrentApplication?.Owners.Id && !privileged)
+            if (ctx.User.Id != ctx.Client.CurrentApplication?.Team.Id && !privileged)
             {
                 if (this.Shared.RemindExecuters.TryGetValue(ctx.User.Id, out var texecs) && texecs.Count >= 20)
                     throw new CommandFailedException("You cannot have more than 20 reminders scheduled simutaneously");

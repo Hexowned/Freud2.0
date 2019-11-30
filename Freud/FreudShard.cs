@@ -131,7 +131,7 @@ namespace Freud
                         .AddSingleton(new AntispamService(this))
                         .AddSingleton(new GiphyService(this.SharedData.BotConfiguration.GiphyKey))
                         .AddSingleton(new GoodreadsService(this.SharedData.BotConfiguration.GoodreadsKey))
-                        .AddSingleton(new WolframService(this.SharedData.BotConfiguration.WolframKey))
+                        //.AddSingleton(new WolframService(this.SharedData.BotConfiguration.WolframKey))
                         .AddSingleton(new ImgurService(this.SharedData.BotConfiguration.ImgurKey))
                         .AddSingleton(new LinkfilterService(this))
                         .AddSingleton(new OMDbService(this.SharedData.BotConfiguration.OMDbKey))

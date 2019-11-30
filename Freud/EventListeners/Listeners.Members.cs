@@ -11,6 +11,7 @@ using Freud.Discord.Extensions;
 using Freud.Extensions;
 using Freud.Extensions.Discord;
 using Freud.Modules.Administration.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -109,10 +110,10 @@ namespace Freud.EventListeners
 
             var gcfg = e.Guild.GetGuildSettings(shard.Database);
             if (gcfg.AntifloodEnabled)
-                await shard.CNext.Services.GetService<AntifloodService>().HandlerMemberJoinAsync(e, gcfg.AntifloodSettings);
+                await shard.CNext.Services.GetService<AntifloodService>().HandleMemberJoinAsync(e, gcfg.AntifloodSettings);
 
             if (gcfg.AntiInstantLeaveEnabled)
-                await shard.CNext.Services.GetService<AntiInstantLeaveService>().HandleMemerJoinAsync(e, gcfg.AntiInstantLeaveSettings);
+                await shard.CNext.Services.GetService<AntiInstantLeaveService>().HandleMemberJoinAsync(e, gcfg.AntiInstantLeaveSettings);
         }
 
         [AsyncEventListener(DiscordEventType.GuildMemberRemoved)]

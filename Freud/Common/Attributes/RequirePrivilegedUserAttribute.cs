@@ -17,7 +17,7 @@ namespace Freud.Common.Attributes
     {
         public override Task<bool> ExecuteCheckAsync(CommandContext ctx, bool help)
         {
-            if (ctx.User.Id == ctx.Client.CurrentApplication.Owner.Id)
+            if (ctx.User.Id == ctx.Client.CurrentApplication.Team.Id)
                 return Task.FromResult(true);
 
             using (var dc = ctx.Services.GetService<DatabaseContextBuilder>().CreateContext())
