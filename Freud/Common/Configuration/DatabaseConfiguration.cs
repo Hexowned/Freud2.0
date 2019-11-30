@@ -1,6 +1,7 @@
 ﻿#region DIRECTIVES
 
 using Newtonsoft.Json;
+using static Freud.Database.Db.DatabaseContextBuilder;
 
 #endregion DIRECTIVES
 
@@ -8,14 +9,6 @@ namespace Freud.Database.Db
 {
     public sealed class DatabaseConfiguration
     {
-        public enum DatabaseProvider
-        {
-            SQLite = 0,
-            PostgreSQL = 1,
-            SQLServer = 2,
-            MySQL = 3
-        }
-
         [JsonProperty("database")]
         public string DatabaseName { get; set; }
 

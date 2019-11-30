@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 #endregion USING_DIRECTIVES
 
-namespace Freud.Database.Db
+namespace Freud.Database.Db.Entities
 {
     [Table("saved_tasks")]
     public class DatabaseSavedTask

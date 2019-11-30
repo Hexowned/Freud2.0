@@ -6,7 +6,7 @@ using Freud.Modules.Administration.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
-using static Freud.Database.Db.DatabaseConfiguration;
+using static Freud.Database.Db.DatabaseContextBuilder;
 
 #endregion USING_DIRECTIVES
 

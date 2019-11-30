@@ -10,6 +10,14 @@ namespace Freud.Database.Db
 {
     public class DatabaseContextBuilder
     {
+        public enum DatabaseProvider
+        {
+            SQLite = 0,
+            PostgreSQL = 1,
+            SQLServer = 2,
+            MySQL = 3
+        }
+
         private string ConnectionString { get; }
         private DatabaseProvider Provider { get; }
 
