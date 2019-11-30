@@ -33,8 +33,7 @@ namespace Freud.Modules.Search
         [Description("Get Steam user information for user based on his ID.")]
         [Aliases("id", "user")]
         [UsageExampleArgs("123456123")]
-        public async Task InfoAsync(CommandContext ctx,
-                                   [Description("ID.")] ulong id)
+        public async Task InfoAsync(CommandContext ctx, [Description("ID.")] ulong id)
         {
             if (this.Service.IsDisabled())
                 throw new ServiceDisabledException();
