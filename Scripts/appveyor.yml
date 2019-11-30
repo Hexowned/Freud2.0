@@ -1,0 +1,56 @@
+image: Visual Studio 2017
+
+branches:
+    only:
+    - master
+
+version: 1.0.{build}
+
+init:
+    - cmd: git config -- global core.autocrlf true
+
+dotnet_csproj:
+    patch: true
+    file: '**\*.csproj'
+    version: $(appveyor_build_version)
+    package_version: $(appveyor_build_version)
+    assembly_version: $(appveyor_build_version)
+    file_version: $(appveyor_build_version)
+    informational_version: $(appveyor_build_version)
+
+install:
+
+before_build:
+    - cmd: dotnet --version
+    - cmd: dotnet restore ./Freud/Freud.csproj --verbosity m
+
+build_script:
+    - cmd: dotnet publish ./Freud/Freud.csproj -c Release /p:Version=%APPVEYOR_BUILD_VERSION%
+    - cmd: 7z a Freud.zip "%APPVEYOR_BUILD_FOLDER%\Freud\bin\Release\netcoreapp2.1\publish\*"
+    - cmd: 7z a Freud.zip "%APPVEYOR_BUILD_FOLDER%\Scripts\*"
+    - cmd: 7z a FreudResources.zip "%APPVEYOR_BUILD_FOLDER%\Freud\Resources\*"
+
+artifacts:
+    - path: Freud.zip
+      name: Freud Release Build
+    - path: FreudResources.zip
+      name: Freud Release Resources
+
+after_build:
+
+clone_depth: 1
+
+test_script:
+    - cmd: dotnet restore ./Freud.Test/Freud.Test.csproj --verbosity m
+    - cmd: cd Freud.Test
+    - cmd: dotnet test
+
+on_success:
+  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+  - ps: ./send.ps1 success $env:WEBHOOK_URL
+on_failure:
+  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+  - ps: ./send.ps1 failure $env:WEBHOOK_URL
+on_finish:
+
+deploy: off
